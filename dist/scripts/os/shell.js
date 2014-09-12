@@ -62,6 +62,10 @@ var TSOS;
             sc = new TSOS.ShellCommand(this.shellWhere, "whereami", "- Displays the current location.");
             this.commandList[this.commandList.length] = sc;
 
+            // random
+            sc = new TSOS.ShellCommand(this.shellRandom, "random", "- Displays a random number.");
+            this.commandList[this.commandList.length] = sc;
+
             // processes - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             //
@@ -280,6 +284,12 @@ var TSOS;
 
         Shell.prototype.shellWhere = function (args) {
             _StdOut.putText("Location determined. Dispatching attack ostriches.");
+        };
+
+        Shell.prototype.shellRandom = function (args) {
+            // Chosen by fair dice roll.
+            // Guaranteed to be random.
+            _StdOut.putText("4");
         };
         return Shell;
     })();

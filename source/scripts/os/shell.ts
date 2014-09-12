@@ -88,6 +88,12 @@ module TSOS {
                                   "- Displays the current location.");
             this.commandList[this.commandList.length] = sc;
 
+            // random
+            sc = new ShellCommand(this.shellRandom,
+                                  "random",
+                                  "- Displays a random number.");
+            this.commandList[this.commandList.length] = sc;
+
             // processes - list the running processes and their IDs
             // kill <id> - kills the specified process id.
 
@@ -304,6 +310,12 @@ module TSOS {
 
         public shellWhere(args) {
             _StdOut.putText("Location determined. Dispatching attack ostriches.");
+        }
+
+        public shellRandom(args) {
+            // Chosen by fair dice roll.
+            // Guaranteed to be random.
+            _StdOut.putText("4");
         }
 
     }
