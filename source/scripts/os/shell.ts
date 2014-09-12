@@ -1,6 +1,7 @@
 ///<reference path="shellCommand.ts" />
 ///<reference path="userCommand.ts" />
 ///<reference path="../utils.ts" />
+///<reference path="../globals.ts" />
 
 /* ------------
    Shell.ts
@@ -73,6 +74,18 @@ module TSOS {
             sc = new ShellCommand(this.shellPrompt,
                                   "prompt",
                                   "<string> - Sets the prompt.");
+            this.commandList[this.commandList.length] = sc;
+
+            // date
+            sc = new ShellCommand(this.shellDate,
+                                  "date",
+                                  "- Displays the current date and time.");
+            this.commandList[this.commandList.length] = sc;
+
+            // whereami
+            sc = new ShellCommand(this.shellWhere,
+                                  "whereami",
+                                  "- Displays the current location.");
             this.commandList[this.commandList.length] = sc;
 
             // processes - list the running processes and their IDs
@@ -277,6 +290,20 @@ module TSOS {
             } else {
                 _StdOut.putText("Usage: prompt <string>  Please supply a string.");
             }
+        }
+
+        public shellDate(args) {
+            var now = new Date();
+            _StdOut.putText(now.getFullYear() + "-" +
+                            (now.getMonth() + 1) + "-" +
+                            now.getDate() + " " +
+                            now.getHours() + ":" +
+                            now.getMinutes() + ":" +
+                            now.getSeconds());
+        }
+
+        public shellWhere(args) {
+            _StdOut.putText("Location determined. Dispatching attack ostriches.");
         }
 
     }

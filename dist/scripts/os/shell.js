@@ -1,6 +1,7 @@
 ///<reference path="shellCommand.ts" />
 ///<reference path="userCommand.ts" />
 ///<reference path="../utils.ts" />
+///<reference path="../globals.ts" />
 /* ------------
 Shell.ts
 The OS Shell - The "command line interface" (CLI) for the console.
@@ -51,6 +52,14 @@ var TSOS;
 
             // prompt <string>
             sc = new TSOS.ShellCommand(this.shellPrompt, "prompt", "<string> - Sets the prompt.");
+            this.commandList[this.commandList.length] = sc;
+
+            // date
+            sc = new TSOS.ShellCommand(this.shellDate, "date", "- Displays the current date and time.");
+            this.commandList[this.commandList.length] = sc;
+
+            // whereami
+            sc = new TSOS.ShellCommand(this.shellWhere, "whereami", "- Displays the current location.");
             this.commandList[this.commandList.length] = sc;
 
             // processes - list the running processes and their IDs
@@ -262,6 +271,15 @@ var TSOS;
             } else {
                 _StdOut.putText("Usage: prompt <string>  Please supply a string.");
             }
+        };
+
+        Shell.prototype.shellDate = function (args) {
+            var now = new Date();
+            _StdOut.putText(now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate() + " " + now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds());
+        };
+
+        Shell.prototype.shellWhere = function (args) {
+            _StdOut.putText("Location determined. Dispatching attack ostriches.");
         };
         return Shell;
     })();
