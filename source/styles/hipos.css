@@ -45,6 +45,7 @@ h3 {
     display: block;
     float: top;
     margin: 0px 0px 10px 0px;
+    overflow: hidden;
 }
 
 .normal_button {

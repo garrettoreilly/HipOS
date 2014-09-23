@@ -74,9 +74,16 @@ module TSOS {
          }
 
         public advanceLine(): void {
-            this.currentXPosition = 0;
-            this.currentYPosition += _DefaultFontSize + _FontHeightMargin;
-            // TODO: Handle scrolling. (Project 1)
+            if (this.currentYPosition >= _Canvas.height - (_DefaultFontSize + _FontHeightMargin)) {
+                var pixels = _DrawingContext.getImageData(0, _DefaultFontSize + _FontHeightMargin, _Canvas.width, _Canvas.height);
+                this.clearScreen();
+                _DrawingContext.putImageData(pixels, 0, 0);
+                this.currentXPosition = 0;
+            } else {
+                this.currentXPosition = 0;
+                this.currentYPosition += _DefaultFontSize + _FontHeightMargin;
+                // TODO: Handle scrolling. (Project 1)
+            }
         }
     }
  }
