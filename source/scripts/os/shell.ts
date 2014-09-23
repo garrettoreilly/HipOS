@@ -94,10 +94,15 @@ module TSOS {
                                   "- Displays a random number.");
             this.commandList[this.commandList.length] = sc;
 
+            // status <string>
+            sc = new ShellCommand(this.shellStatus,
+                                  "status",
+                                  "<string> - Sets the status.");
+            this.commandList[this.commandList.length] = sc;
+
             // processes - list the running processes and their IDs
             // kill <id> - kills the specified process id.
 
-            //
             // Display the initial prompt.
             this.putPrompt();
         }
@@ -299,13 +304,7 @@ module TSOS {
         }
 
         public shellDate(args) {
-            var now = new Date();
-            _StdOut.putText(now.getFullYear() + "-" +
-                            (now.getMonth() + 1) + "-" +
-                            now.getDate() + " " +
-                            now.getHours() + ":" +
-                            now.getMinutes() + ":" +
-                            now.getSeconds());
+            _StdOut.putText(Utils.getDate());
         }
 
         public shellWhere(args) {
@@ -318,5 +317,12 @@ module TSOS {
             _StdOut.putText("4");
         }
 
+        public shellStatus(args) {
+            if (args.length > 0) {
+                Utils.updateStatus(args);
+            } else {
+                _StdOut.putText("Usage: status <string>  Please supply a string.");
+            }
+        }
     }
 }

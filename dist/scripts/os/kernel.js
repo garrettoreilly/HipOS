@@ -1,3 +1,4 @@
+///<reference path="../utils.ts" />
 /* ------------
 Kernel.ts
 Requires globals.ts
@@ -84,6 +85,8 @@ var TSOS;
             } else {
                 this.krnTrace("Idle");
             }
+
+            document.getElementById("taskClock").innerHTML = TSOS.Utils.getDate();
         };
 
         //

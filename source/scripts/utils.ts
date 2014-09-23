@@ -43,5 +43,19 @@ module TSOS {
             }
             return retVal;
         }
+
+        public static getDate() {
+            var now = new Date();
+            return (now.getFullYear() + "-" +
+                            (now.getMonth() + 1) + "-" +
+                            now.getDate() + " " +
+                            now.getHours() + ":" +
+                            now.getMinutes() + ":" +
+                            now.getSeconds());
+        }
+
+        public static updateStatus(args) {
+            document.getElementById("taskStatus").innerHTML = args.join(" ");
+        }
     }
 }

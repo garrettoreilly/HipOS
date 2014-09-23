@@ -42,6 +42,15 @@ var TSOS;
             }
             return retVal;
         };
+
+        Utils.getDate = function () {
+            var now = new Date();
+            return (now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate() + " " + now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds());
+        };
+
+        Utils.updateStatus = function (args) {
+            document.getElementById("taskStatus").innerHTML = args.join(" ");
+        };
         return Utils;
     })();
     TSOS.Utils = Utils;
