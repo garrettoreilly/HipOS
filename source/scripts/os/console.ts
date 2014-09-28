@@ -46,6 +46,9 @@ module TSOS {
                     _OsShell.handleInput(this.buffer);
                     // ... and reset our buffer.
                     this.buffer = "";
+                } else if (chr === String.fromCharCode(8)) {
+                    this.backSpace(this.buffer[this.buffer.length - 1]);
+                    this.buffer = this.buffer.substring(0, this.buffer.length - 1);
                 } else {
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...
@@ -67,11 +70,18 @@ module TSOS {
             if (text !== "") {
                 // Draw the text at the current X and Y coordinates.
                 _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, text);
+
                 // Move the current X position.
                 var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
                 this.currentXPosition = this.currentXPosition + offset;
             }
          }
+
+        public backSpace(text): void {
+            var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
+            _DrawingContext.clearRect(this.currentXPosition - offset, this.currentYPosition - _DefaultFontSize - _FontHeightMargin, offset, 5 + _DefaultFontSize + _FontHeightMargin);
+            this.currentXPosition = this.currentXPosition - offset;
+        }
 
         public advanceLine(): void {
             if (this.currentYPosition >= _Canvas.height - (_DefaultFontSize + _FontHeightMargin)) {
@@ -82,7 +92,6 @@ module TSOS {
             } else {
                 this.currentXPosition = 0;
                 this.currentYPosition += _DefaultFontSize + _FontHeightMargin;
-                // TODO: Handle scrolling. (Project 1)
             }
         }
     }

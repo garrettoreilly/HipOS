@@ -47,6 +47,9 @@ var TSOS;
 
                     // ... and reset our buffer.
                     this.buffer = "";
+                } else if (chr === String.fromCharCode(8)) {
+                    this.backSpace(this.buffer[this.buffer.length - 1]);
+                    this.buffer = this.buffer.substring(0, this.buffer.length - 1);
                 } else {
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...
@@ -76,6 +79,12 @@ var TSOS;
             }
         };
 
+        Console.prototype.backSpace = function (text) {
+            var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
+            _DrawingContext.clearRect(this.currentXPosition - offset, this.currentYPosition - _DefaultFontSize - _FontHeightMargin, offset, 5 + _DefaultFontSize + _FontHeightMargin);
+            this.currentXPosition = this.currentXPosition - offset;
+        };
+
         Console.prototype.advanceLine = function () {
             if (this.currentYPosition >= _Canvas.height - (_DefaultFontSize + _FontHeightMargin)) {
                 var pixels = _DrawingContext.getImageData(0, _DefaultFontSize + _FontHeightMargin, _Canvas.width, _Canvas.height);
@@ -85,7 +94,6 @@ var TSOS;
             } else {
                 this.currentXPosition = 0;
                 this.currentYPosition += _DefaultFontSize + _FontHeightMargin;
-                // TODO: Handle scrolling. (Project 1)
             }
         };
         return Console;
