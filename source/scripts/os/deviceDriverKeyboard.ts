@@ -72,7 +72,7 @@ module TSOS {
                 _KernelInputQueue.enqueue(chr);
             } else if ((keyCode >= 186 && keyCode <= 192) ||
                     (keyCode >= 219 && keyCode <= 222) ||
-                    (keyCode == 8)) {
+                    (keyCode == 8) || (keyCode == 9)) {
                 if (keyCode == 186){
                     if (isShifted) {
                         keyCode = 58;

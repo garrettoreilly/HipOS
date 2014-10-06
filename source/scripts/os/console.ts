@@ -1,4 +1,5 @@
 ///<reference path="../globals.ts" />
+///<reference path="shell.ts" />
 
 /* ------------
      Console.ts
@@ -49,6 +50,8 @@ module TSOS {
                 } else if (chr === String.fromCharCode(8)) {
                     this.backSpace(this.buffer[this.buffer.length - 1]);
                     this.buffer = this.buffer.substring(0, this.buffer.length - 1);
+                } else if (chr === String.fromCharCode(9)) {
+                    this.complete(this.buffer);
                 } else {
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...
@@ -92,6 +95,18 @@ module TSOS {
             } else {
                 this.currentXPosition = 0;
                 this.currentYPosition += _DefaultFontSize + _FontHeightMargin;
+            }
+        }
+
+        public complete(text): void {
+            for (var i in _OsShell.commandList) {
+                if (text.localeCompare(i.command.slice(0, text.length - 1)) == 0) {
+                    for (var j in i.command.slice(4, -1)) {
+                        this.putText(j);
+                        this.buffer += j;
+                    }
+                    break;
+                }
             }
         }
     }
