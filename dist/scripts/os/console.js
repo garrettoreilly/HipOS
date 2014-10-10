@@ -1,4 +1,5 @@
 ///<reference path="../globals.ts" />
+///<reference path="shell.ts" />
 /* ------------
 Console.ts
 Requires globals.ts
@@ -50,6 +51,10 @@ var TSOS;
                 } else if (chr === String.fromCharCode(8)) {
                     this.backSpace(this.buffer[this.buffer.length - 1]);
                     this.buffer = this.buffer.substring(0, this.buffer.length - 1);
+                } else if (chr === String.fromCharCode(9)) {
+                    var theRest = _OsShell.tabCompletion(this.buffer);
+                    this.putText(theRest);
+                    this.buffer += theRest;
                 } else {
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...

@@ -151,6 +151,27 @@ module TSOS {
             }
         }
 
+        // Handle tab completion
+        public tabCompletion(text): string {
+            var matches = [];
+            var cmd;
+            for (var i = 0; i < this.commandList.length; i++) {
+                cmd = this.commandList[i].command;
+                if (text.localeCompare(cmd.substring(0, text.length)) == 0) {
+                    matches.push(cmd);
+                }
+            }
+            if (matches.length > 1) {
+                _StdOut.advanceLine();
+                _StdOut.putText(matches.join(" "));
+                _StdOut.advanceLine();
+                this.putPrompt();
+                _StdOut.putText(text);
+            } else {
+                return matches[0].substring(text.length, matches[0].length);
+            }
+        }
+
         // args is an option parameter, ergo the ? which allows TypeScript to understand that
         public execute(fn, args?) {
             // We just got a command, so advance the line...
