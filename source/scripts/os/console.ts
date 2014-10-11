@@ -18,7 +18,9 @@ module TSOS {
                     public currentFontSize = _DefaultFontSize,
                     public currentXPosition = 0,
                     public currentYPosition = _DefaultFontSize,
-                    public buffer = "") {
+                    public buffer = "",
+                    public commandHistory = [],
+                    public present = 0) {
 
         }
 
@@ -45,6 +47,8 @@ module TSOS {
                     // The enter key marks the end of a console command, so ...
                     // ... tell the shell ...
                     _OsShell.handleInput(this.buffer);
+                    this.addHistory(this.buffer);
+                    this.present = this.commandHistory.length;
                     // ... and reset our buffer.
                     this.buffer = "";
                 } else if (chr === String.fromCharCode(8)) {
@@ -54,6 +58,10 @@ module TSOS {
                     var theRest = _OsShell.tabCompletion(this.buffer);
                     this.putText(theRest);
                     this.buffer += theRest;
+                } else if (chr === String.fromCharCode(38)) {
+                    this.handleHistory("up");
+                } else if (chr === String.fromCharCode(40)) {
+                    this.handleHistory("down");
                 } else {
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...
@@ -62,6 +70,32 @@ module TSOS {
                     this.buffer += chr;
                 }
                 // TODO: Write a case for Ctrl-C.
+            }
+        }
+
+        public addHistory(text): void {
+            this.commandHistory.push(text);
+        }
+
+        public handleHistory(arrow): void {
+            if (arrow.localeCompare("up") == 0) {
+                if (this.present - 1 >= 0) {
+                    this.present--;
+                    this.backSpace(this.buffer);
+                    this.buffer = "";
+                    this.putText(this.commandHistory[this.present]);
+                    this.buffer = this.commandHistory[this.present];
+                }
+            } else if (arrow.localeCompare("down") == 0) {
+                if (this.present + 1 <= this.commandHistory.length) {
+                    this.present++;
+                    this.backSpace(this.buffer);
+                    this.buffer = "";
+                    if (this.present != this.commandHistory.length) {
+                        this.putText(this.commandHistory[this.present]);
+                        this.buffer = this.commandHistory[this.present];
+                    }
+                }
             }
         }
 
