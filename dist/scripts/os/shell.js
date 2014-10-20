@@ -298,10 +298,11 @@ var TSOS;
             _Kernel.krnTrapError("You made me dead. :(");
         };
         Shell.prototype.shellLoad = function (args) {
-            var program = document.getElementById("taProgramInput").value.toLowerCase().replace(/\s+/g, '');
+            var program = document.getElementById("taProgramInput").value.toLowerCase().split(" ");
+            console.log(program);
             var hex = "0123456789abcdef";
             for (var i = 0; i < program.length; i++) {
-                if (hex.indexOf(program[i]) == -1) {
+                if (hex.indexOf(program[i][0]) == -1 || hex.indexOf(program[i][1]) == -1) {
                     _Console.putText("Not valid hex.");
                     return;
                 }
