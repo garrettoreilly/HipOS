@@ -106,6 +106,13 @@ module TSOS {
                                   "- Make computer die.");
             this.commandList[this.commandList.length] = sc;
 
+            // load
+            sc = new ShellCommand(this.shellLoad,
+                                  "load",
+                                  "- Load user program input.");
+            this.commandList[this.commandList.length] = sc;
+
+
             // processes - list the running processes and their IDs
             // kill <id> - kills the specified process id.
 
@@ -354,6 +361,17 @@ module TSOS {
         
         public shellBsod(args) {
             _Kernel.krnTrapError("You made me dead. :(");
+        }
+
+        public shellLoad(args) {
+            var program:string = (<HTMLInputElement>document.getElementById("taProgramInput")).value.toLowerCase().replace(/\s+/g, '');
+            var hex:string = "0123456789abcdef";
+            for (var i = 0; i < program.length; i++) {
+                if (hex.indexOf(program[i]) == -1) {
+                    _Console.putText("Not valid hex.");
+                    return;
+                }
+            }
         }
     }
 }

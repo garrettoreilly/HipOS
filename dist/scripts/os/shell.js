@@ -61,6 +61,9 @@ var TSOS;
             // bsod
             sc = new TSOS.ShellCommand(this.shellBsod, "bsod", "- Make computer die.");
             this.commandList[this.commandList.length] = sc;
+            // load
+            sc = new TSOS.ShellCommand(this.shellLoad, "load", "- Load user program input.");
+            this.commandList[this.commandList.length] = sc;
             // processes - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             // Display the initial prompt.
@@ -293,6 +296,16 @@ var TSOS;
         };
         Shell.prototype.shellBsod = function (args) {
             _Kernel.krnTrapError("You made me dead. :(");
+        };
+        Shell.prototype.shellLoad = function (args) {
+            var program = document.getElementById("taProgramInput").value.toLowerCase().replace(/\s+/g, '');
+            var hex = "0123456789abcdef";
+            for (var i = 0; i < program.length; i++) {
+                if (hex.indexOf(program[i]) == -1) {
+                    _Console.putText("Not valid hex.");
+                    return;
+                }
+            }
         };
         return Shell;
     })();
