@@ -46,12 +46,20 @@ module TSOS {
 
         public static getDate() {
             var now = new Date();
-            return (now.getFullYear() + "-" +
-                            (now.getMonth() + 1) + "-" +
-                            now.getDate() + " " +
-                            now.getHours() + ":" +
-                            now.getMinutes() + ":" +
-                            now.getSeconds());
+            var date = [now.getFullYear() + "-",
+                        now.getMonth() + "-",
+                        now.getDate() + " ",
+                        now.getHours() + ":",
+                        now.getMinutes() + ":",
+                        now.getSeconds() + " "];
+            var fullDate = "";
+            for (var i = 0; i < date.length; i++) {
+                if (date[i].length == 2) {
+                    date[i] = "0" + date[i];
+                }
+                fullDate = fullDate + date[i];
+            }
+            return fullDate;
         }
 
         public static updateStatus(args) {
