@@ -1,17 +1,17 @@
 /* ----------------- *
-* CanvasText.ts   *
-*
-* Downloaded from http://www.federated.com/~jim/canvastext.
-*
-* This code is released to the public domain by Jim Studt, 2007.
-* He may keep some sort of up to date copy at http://www.federated.com/~jim/canvastext/
-*
-* Modifications by Alan G. Labouseur.
-*  - fixed comma
-*  - added semi-colon.
-*
-* Port to TypeScript by Bob Nisco.
-* ----------------- */
+ * CanvasText.ts   *
+ *
+ * Downloaded from http://www.federated.com/~jim/canvastext.
+ *
+ * This code is released to the public domain by Jim Studt, 2007.
+ * He may keep some sort of up to date copy at http://www.federated.com/~jim/canvastext/
+ *
+ * Modifications by Alan G. Labouseur.
+ *  - fixed comma
+ *  - added semi-colon.
+ *
+ * Port to TypeScript by Bob Nisco.
+ * ----------------- */
 var TSOS;
 (function (TSOS) {
     var CanvasTextFunctions = (function () {
@@ -20,19 +20,15 @@ var TSOS;
         CanvasTextFunctions.letter = function (ch) {
             return CanvasTextFunctions.letters[ch];
         };
-
         CanvasTextFunctions.ascent = function (font, size) {
             return size;
         };
-
         CanvasTextFunctions.descent = function (font, size) {
             return 7.0 * size / 25.0;
         };
-
         CanvasTextFunctions.measure = function (font, size, str) {
             var total = 0;
             var len = str.length;
-
             for (var i = 0; i < len; i++) {
                 var c = CanvasTextFunctions.letter(str.charAt(i));
                 if (c) {
@@ -41,17 +37,14 @@ var TSOS;
             }
             return total;
         };
-
         CanvasTextFunctions.draw = function (ctx, font, size, x, y, str) {
             var total = 0;
             var len = str.length;
             var mag = size / 25.0;
-
             ctx.save();
             ctx.lineCap = "round";
             ctx.lineWidth = 2.0 * mag;
             ctx.strokeStyle = "black";
-
             for (var i = 0; i < len; i++) {
                 var c = CanvasTextFunctions.letter(str.charAt(i));
                 if (!c) {
@@ -69,7 +62,8 @@ var TSOS;
                     if (penUp) {
                         ctx.moveTo(x + a[0] * mag, y - a[1] * mag);
                         penUp = false;
-                    } else {
+                    }
+                    else {
                         ctx.lineTo(x + a[0] * mag, y - a[1] * mag);
                     }
                 }
@@ -79,7 +73,6 @@ var TSOS;
             ctx.restore();
             return total;
         };
-
         CanvasTextFunctions.enable = function (ctx) {
             ctx.drawText = function (font, size, x, y, text) {
                 return CanvasTextFunctions.draw(ctx, font, size, x, y, text);

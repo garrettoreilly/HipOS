@@ -1,7 +1,8 @@
 /* --------
-Utils.ts
-Utility functions.
--------- */
+   Utils.ts
+
+   Utility functions.
+   -------- */
 var TSOS;
 (function (TSOS) {
     var Utils = (function () {
@@ -19,12 +20,11 @@ var TSOS;
             - "" is nothing, which is what we replace the whitespace with.
             */
         };
-
         Utils.rot13 = function (str) {
             /*
-            This is an easy-to understand implementation of the famous and common Rot13 obfuscator.
-            You can do this in three lines with a complex regular expression, but I'd have
-            trouble explaining it in the future.  There's a lot to be said for obvious code.
+               This is an easy-to understand implementation of the famous and common Rot13 obfuscator.
+               You can do this in three lines with a complex regular expression, but I'd have
+               trouble explaining it in the future.  There's a lot to be said for obvious code.
             */
             var retVal = "";
             for (var i in str) {
@@ -33,21 +33,21 @@ var TSOS;
                 if ("abcedfghijklmABCDEFGHIJKLM".indexOf(ch) >= 0) {
                     code = str.charCodeAt(i) + 13; // It's okay to use 13.  It's not a magic number, it's called rot13.
                     retVal = retVal + String.fromCharCode(code);
-                } else if ("nopqrstuvwxyzNOPQRSTUVWXYZ".indexOf(ch) >= 0) {
+                }
+                else if ("nopqrstuvwxyzNOPQRSTUVWXYZ".indexOf(ch) >= 0) {
                     code = str.charCodeAt(i) - 13; // It's okay to use 13.  See above.
                     retVal = retVal + String.fromCharCode(code);
-                } else {
+                }
+                else {
                     retVal = retVal + ch;
                 }
             }
             return retVal;
         };
-
         Utils.getDate = function () {
             var now = new Date();
             return (now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate() + " " + now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds());
         };
-
         Utils.updateStatus = function (args) {
             document.getElementById("taskStatus").innerHTML = args.join(" ");
         };

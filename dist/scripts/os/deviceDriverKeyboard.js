@@ -6,10 +6,12 @@ var __extends = this.__extends || function (d, b) {
     d.prototype = new __();
 };
 /* ----------------------------------
-DeviceDriverKeyboard.ts
-Requires deviceDriver.ts
-The Kernel Keyboard Device Driver.
----------------------------------- */
+   DeviceDriverKeyboard.ts
+
+   Requires deviceDriver.ts
+
+   The Kernel Keyboard Device Driver.
+   ---------------------------------- */
 var TSOS;
 (function (TSOS) {
     // Extends DeviceDriver
@@ -24,112 +26,138 @@ var TSOS;
             this.status = "loaded";
             // More?
         };
-
         DeviceDriverKeyboard.prototype.krnKbdDispatchKeyPress = function (params) {
             // Parse the params.    TODO: Check that they are valid and osTrapError if not.
             var keyCode = params[0];
             var isShifted = params[1];
             _Kernel.krnTrace("Key code:" + keyCode + " shifted:" + isShifted);
             var chr = "";
-
             // Check to see if we even want to deal with the key that was pressed.
             if (((keyCode >= 65) && (keyCode <= 90)) || ((keyCode >= 97) && (keyCode <= 122))) {
                 // Determine the character we want to display.
                 // Assume it's lowercase...
                 chr = String.fromCharCode(keyCode + 32);
-
                 // ... then check the shift key and re-adjust if necessary.
                 if (isShifted) {
                     chr = String.fromCharCode(keyCode);
                 }
-
                 // TODO: Check for caps-lock and handle as shifted if so.
                 _KernelInputQueue.enqueue(chr);
-            } else if (((keyCode >= 48) && (keyCode <= 57)) || (keyCode == 32) || (keyCode == 13)) {
+            }
+            else if (((keyCode >= 48) && (keyCode <= 57)) || (keyCode == 32) || (keyCode == 13)) {
                 if (isShifted) {
                     if (keyCode == 48) {
                         keyCode = 41;
-                    } else if (keyCode == 49) {
+                    }
+                    else if (keyCode == 49) {
                         keyCode = 33;
-                    } else if (keyCode == 50) {
+                    }
+                    else if (keyCode == 50) {
                         keyCode = 64;
-                    } else if (keyCode == 51) {
+                    }
+                    else if (keyCode == 51) {
                         keyCode = 35;
-                    } else if (keyCode == 52) {
+                    }
+                    else if (keyCode == 52) {
                         keyCode = 36;
-                    } else if (keyCode == 53) {
+                    }
+                    else if (keyCode == 53) {
                         keyCode = 37;
-                    } else if (keyCode == 54) {
+                    }
+                    else if (keyCode == 54) {
                         keyCode = 94;
-                    } else if (keyCode == 55) {
+                    }
+                    else if (keyCode == 55) {
                         keyCode = 38;
-                    } else if (keyCode == 56) {
+                    }
+                    else if (keyCode == 56) {
                         keyCode = 42;
-                    } else if (keyCode == 57) {
+                    }
+                    else if (keyCode == 57) {
                         keyCode = 40;
                     }
                 }
                 chr = String.fromCharCode(keyCode);
                 _KernelInputQueue.enqueue(chr);
-            } else if ((keyCode >= 186 && keyCode <= 192) || (keyCode >= 219 && keyCode <= 222) || (keyCode == 8) || (keyCode == 9) || (keyCode == 38) || (keyCode == 40)) {
+            }
+            else if ((keyCode >= 186 && keyCode <= 192) || (keyCode >= 219 && keyCode <= 222) || (keyCode == 8) || (keyCode == 9) || (keyCode == 38) || (keyCode == 40)) {
                 if (keyCode == 186) {
                     if (isShifted) {
                         keyCode = 58;
-                    } else {
+                    }
+                    else {
                         keyCode = 59;
                     }
-                } else if (keyCode == 187) {
+                }
+                else if (keyCode == 187) {
                     if (isShifted) {
                         keyCode = 43;
-                    } else {
+                    }
+                    else {
                         keyCode = 61;
                     }
-                } else if (keyCode == 188) {
+                }
+                else if (keyCode == 188) {
                     if (isShifted) {
                         keyCode = 60;
-                    } else {
+                    }
+                    else {
                         keyCode == 44;
                     }
-                } else if (keyCode == 189) {
+                }
+                else if (keyCode == 189) {
                     if (isShifted) {
                         keyCode = 95;
-                    } else {
+                    }
+                    else {
                         keyCode = 45;
                     }
-                } else if (keyCode == 190) {
+                }
+                else if (keyCode == 190) {
                     if (isShifted) {
                         keyCode = 62;
-                    } else {
+                    }
+                    else {
                         keyCode = 46;
                     }
-                } else if (keyCode == 191) {
+                }
+                else if (keyCode == 191) {
                     if (isShifted) {
                         keyCode = 63;
-                    } else {
+                    }
+                    else {
                         keyCode = 47;
                     }
-                } else if (keyCode == 192) {
+                }
+                else if (keyCode == 192) {
                     if (isShifted) {
                         keyCode = 126;
-                    } else {
+                    }
+                    else {
                         keyCode = 96;
                     }
-                } else if (keyCode == 219) {
+                }
+                else if (keyCode == 219) {
                     if (isShifted) {
                         keyCode = 123;
-                    } else {
+                    }
+                    else {
                         keyCode = 91;
                     }
-                } else if (keyCode == 220) {
+                }
+                else if (keyCode == 220) {
                     if (isShifted) {
                         keyCode = 124;
-                    } else {
+                    }
+                    else {
                         keyCode = 92;
                     }
-                } else if (keyCode == 221) {
+                }
+                else if (keyCode == 221) {
                     if (isShifted) {
                         keyCode = 125;
-                    } else {
+                    }
+                    else {
                         keyCode = 93;
                     }
                 }
