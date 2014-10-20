@@ -364,10 +364,10 @@ module TSOS {
         }
 
         public shellLoad(args) {
-            var program:string = (<HTMLInputElement>document.getElementById("taProgramInput")).value.toLowerCase().replace(/\s+/g, '');
+            var program:string[] = (<HTMLInputElement>document.getElementById("taProgramInput")).value.toLowerCase().split(" ");
             var hex:string = "0123456789abcdef";
             for (var i = 0; i < program.length; i++) {
-                if (hex.indexOf(program[i]) == -1) {
+                if (hex.indexOf(program[i][0]) == -1 || hex.indexOf(program[i][1]) == -1) {
                     _Console.putText("Not valid hex.");
                     return;
                 }
