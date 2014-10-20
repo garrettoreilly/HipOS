@@ -100,6 +100,12 @@ module TSOS {
                                   "<string> - Sets the status.");
             this.commandList[this.commandList.length] = sc;
 
+            // bsod
+            sc = new ShellCommand(this.shellBsod,
+                                  "bsod",
+                                  "- Make computer die.");
+            this.commandList[this.commandList.length] = sc;
+
             // processes - list the running processes and their IDs
             // kill <id> - kills the specified process id.
 
@@ -344,6 +350,10 @@ module TSOS {
             } else {
                 _StdOut.putText("Usage: status <string>  Please supply a string.");
             }
+        }
+        
+        public shellBsod(args) {
+            _Kernel.krnTrapError("You made me dead. :(");
         }
     }
 }

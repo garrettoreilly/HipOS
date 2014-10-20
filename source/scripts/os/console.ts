@@ -38,6 +38,11 @@ module TSOS {
             this.currentYPosition = this.currentFontSize;
         }
 
+        public bsod(): void {
+            _DrawingContext.fillStyle = "rgb(0, 0, 255)";
+            _DrawingContext.fillRect(0, 0, _Canvas.width, _Canvas.height);
+        }
+
         public handleInput(): void {
             while (_KernelInputQueue.getSize() > 0) {
                 // Get the next character from the kernel input queue.
