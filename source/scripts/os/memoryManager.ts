@@ -15,5 +15,13 @@ module TSOS {
                 }
             }
         }
+
+        public getAddress(addr): string {
+            return this.memory.getAddress(addr);
+        }
+
+        public setAddress(addr, value): void {
+            this.memory.setAddress(addr, value);
+        }
     }
 }
