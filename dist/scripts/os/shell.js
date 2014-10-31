@@ -64,6 +64,9 @@ var TSOS;
             // load
             sc = new TSOS.ShellCommand(this.shellLoad, "load", "- Load user program input.");
             this.commandList[this.commandList.length] = sc;
+            // run
+            sc = new TSOS.ShellCommand(this.shellRun, "run", "- Run user program.");
+            this.commandList[this.commandList.length] = sc;
             // processes - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             // Display the initial prompt.
@@ -313,6 +316,9 @@ var TSOS;
             else {
                 _StdOut.putText("PID: " + pid);
             }
+        };
+        Shell.prototype.shellRun = function (args) {
+            _Kernel.runProgram(args);
         };
         return Shell;
     })();

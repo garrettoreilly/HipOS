@@ -112,6 +112,11 @@ module TSOS {
                                   "- Load user program input.");
             this.commandList[this.commandList.length] = sc;
 
+            // run
+            sc = new ShellCommand(this.shellRun,
+                                  "run",
+                                  "- Run user program.");
+            this.commandList[this.commandList.length] = sc;
 
             // processes - list the running processes and their IDs
             // kill <id> - kills the specified process id.
@@ -378,6 +383,10 @@ module TSOS {
             } else {
                 _StdOut.putText("PID: " + pid);
             }
+        }
+
+        public shellRun(args) {
+            _Kernel.runProgram(args);
         }
     }
 }

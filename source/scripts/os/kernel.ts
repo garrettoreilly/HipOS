@@ -38,6 +38,7 @@ module TSOS {
                     this.running = this.readyQueue[i];
                     this.readyQueue = this.readyQueue.splice(i, 1);
                     this.running.setCpuState();
+                    i++;
                 }
             }
         }

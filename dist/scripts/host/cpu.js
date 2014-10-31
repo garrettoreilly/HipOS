@@ -23,7 +23,7 @@ var TSOS;
             if (Yreg === void 0) { Yreg = 0; }
             if (Zflag === void 0) { Zflag = 0; }
             if (isExecuting === void 0) { isExecuting = false; }
-            if (instruction === void 0) { instruction = ""; }
+            if (instruction === void 0) { instruction = 0; }
             this.PC = PC;
             this.Acc = Acc;
             this.Xreg = Xreg;
@@ -39,71 +39,72 @@ var TSOS;
             this.Yreg = 0;
             this.Zflag = 0;
             this.isExecuting = false;
-            this.instruction = "";
+            this.instruction = 0;
         };
         Cpu.prototype.cycle = function () {
             _Kernel.krnTrace('CPU cycle');
             // TODO: Accumulate CPU usage and profiling statistics here.
             // Do the real work here. Be sure to set this.isExecuting appropriately.
             this.instruction = _Manager.getAddress(this.PC);
+            console.log(this.instruction);
             this.PC++;
-            if (this.instruction == "a9") {
+            if (this.instruction == 0xA9) {
                 this.loadConstant();
                 this.PC++;
             }
-            else if (this.instruction == "ad") {
+            else if (this.instruction == 0xAD) {
                 this.loadFromMemory();
                 this.PC++;
                 this.PC++;
             }
-            else if (this.instruction == "8d") {
+            else if (this.instruction == 0x8D) {
                 this.storeAcc();
                 this.PC++;
                 this.PC++;
             }
-            else if (this.instruction == "6d") {
+            else if (this.instruction == 0x6D) {
                 this.addWithCarry();
                 this.PC++;
                 this.PC++;
             }
-            else if (this.instruction == "a2") {
+            else if (this.instruction == 0xA2) {
                 this.loadXConstant();
                 this.PC++;
             }
-            else if (this.instruction == "ae") {
+            else if (this.instruction == 0xAE) {
                 this.loadXMemory();
                 this.PC++;
                 this.PC++;
             }
-            else if (this.instruction == "a0") {
+            else if (this.instruction == 0xA0) {
                 this.loadYConstant();
                 this.PC++;
             }
-            else if (this.instruction == "ac") {
+            else if (this.instruction == 0xAC) {
                 this.loadYMemory();
                 this.PC++;
                 this.PC++;
             }
-            else if (this.instruction == "ea") {
+            else if (this.instruction == 0xEA) {
             }
-            else if (this.instruction == "00") {
-                this.breakSys;
+            else if (this.instruction == 0x00) {
+                this.breakSys();
             }
-            else if (this.instruction == "ec") {
+            else if (this.instruction == 0xEC) {
                 this.compareToX();
                 this.PC++;
                 this.PC++;
             }
-            else if (this.instruction == "d0") {
+            else if (this.instruction == 0xD0) {
                 this.branchN();
                 this.PC++;
             }
-            else if (this.instruction == "ee") {
+            else if (this.instruction == 0xEE) {
                 this.incrementByte();
                 this.PC++;
                 this.PC++;
             }
-            else if (this.instruction == "ff") {
+            else if (this.instruction == 0xFF) {
                 this.systemCall();
             }
         };
@@ -132,6 +133,7 @@ var TSOS;
             this.Yreg = _Manager.getAddress(_Manager.getAddress(this.PC));
         };
         Cpu.prototype.breakSys = function () {
+            this.isExecuting = false;
         };
         Cpu.prototype.compareToX = function () {
             if (_Manager.getAddress(_Manager.getAddress(this.PC)) == this.Xreg) {
