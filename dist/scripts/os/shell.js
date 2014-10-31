@@ -307,7 +307,12 @@ var TSOS;
                 }
             }
             var pid = _Kernel.loadProgram(program);
-            _StdOut.putText("PID: " + pid);
+            if (pid == -1) {
+                _StdOut.putText("You already filled the memory. Pay attention.");
+            }
+            else {
+                _StdOut.putText("PID: " + pid);
+            }
         };
         return Shell;
     })();

@@ -22,6 +22,9 @@ module TSOS {
 
         public loadProgram(program): number {
             var base = _Manager.loadProgram(program);
+            if (base == -1) {
+                return -1;
+            }
             var pcb = new Pcb(this.pid, base);
             this.readyQueue.push(pcb);
             this.pid++;

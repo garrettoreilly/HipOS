@@ -15,6 +15,8 @@ module TSOS {
                     return i * 256;
                 }
             }
+            return -1;
+
         }
 
         public getAddress(addr): number {
@@ -28,6 +30,9 @@ module TSOS {
         public loadProgram(program, pcb): number {
             var i = 0;
             var base = this.getSegment();
+            if (base == -1) {
+                return -1;
+            }
             while (i < program.length) {
                 this.memory.setAddress(base + i, program[i]);
                 i++;

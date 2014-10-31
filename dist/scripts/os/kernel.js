@@ -19,6 +19,9 @@ var TSOS;
         }
         Kernel.prototype.loadProgram = function (program) {
             var base = _Manager.loadProgram(program);
+            if (base == -1) {
+                return -1;
+            }
             var pcb = new TSOS.Pcb(this.pid, base);
             this.readyQueue.push(pcb);
             this.pid++;
