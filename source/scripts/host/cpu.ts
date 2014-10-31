@@ -129,6 +129,7 @@ module TSOS {
 
         public breakSys(): void {
             this.isExecuting = false;
+            _KernelInterruptQueue.enqueue(new Interrupt(BREAK_IRQ, []));
         }
 
         public compareToX(): void {

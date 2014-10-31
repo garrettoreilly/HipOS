@@ -134,6 +134,7 @@ var TSOS;
         };
         Cpu.prototype.breakSys = function () {
             this.isExecuting = false;
+            _KernelInterruptQueue.enqueue(new TSOS.Interrupt(BREAK_IRQ, []));
         };
         Cpu.prototype.compareToX = function () {
             if (_Manager.getAddress(_Manager.getAddress(this.PC)) == this.Xreg) {
