@@ -133,7 +133,6 @@ var TSOS;
             this.Yreg = _Manager.getAddress(_Manager.getAddress(this.PC));
         };
         Cpu.prototype.breakSys = function () {
-            this.isExecuting = false;
             _KernelInterruptQueue.enqueue(new TSOS.Interrupt(BREAK_IRQ, []));
         };
         Cpu.prototype.compareToX = function () {
@@ -150,6 +149,7 @@ var TSOS;
             _Manager.setAddress(_Manager.getAddress(this.PC), _Manager.getAddress(_Manager.getAddress(this.PC)) + 1);
         };
         Cpu.prototype.systemCall = function () {
+            _KernelInterruptQueue.enqueue(new TSOS.Interrupt(SOFTWARE_IRQ, [this.Xreg, this.Yreg]));
         };
         return Cpu;
     })();

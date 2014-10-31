@@ -128,7 +128,6 @@ module TSOS {
         }
 
         public breakSys(): void {
-            this.isExecuting = false;
             _KernelInterruptQueue.enqueue(new Interrupt(BREAK_IRQ, []));
         }
 
@@ -149,7 +148,7 @@ module TSOS {
         }
 
         public systemCall(): void {
-
+            _KernelInterruptQueue.enqueue(new Interrupt(SOFTWARE_IRQ, [this.Xreg, this.Yreg]));
         }
     }
 }

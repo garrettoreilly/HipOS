@@ -163,6 +163,20 @@ module TSOS {
                     this.running = undefined;
                     break;
 
+                case SOFTWARE_IRQ:
+                    console.log(params);
+                    if (params[0] == 1) {
+                        _StdOut.putText(params[1].toString());
+                    } else if (params[0] == 2) {
+                        var str = [];
+                        while (_Manager.getAddress(params[1]) != 0) {
+                            str.push(String.fromCharCode(_Manager.getAddress(params[1])));
+                            params[1]++;
+                        }
+                        _StdOut.putText(str);
+                    }
+                    break;
+
                 default:
                     this.krnTrapError("Invalid Interrupt Request. irq=" + irq + " params=[" + params + "]");
             }
