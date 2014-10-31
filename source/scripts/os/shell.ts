@@ -372,6 +372,7 @@ module TSOS {
                     return;
                 }
             }
+            _Kernel.loadProgram(program);
         }
     }
 }
