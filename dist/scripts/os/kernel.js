@@ -1,4 +1,5 @@
 ///<reference path="../utils.ts" />
+///<reference path="processControlBlock.ts" />
 /* ------------
      Kernel.ts
 
@@ -13,11 +14,21 @@ var TSOS;
 (function (TSOS) {
     var Kernel = (function () {
         function Kernel() {
+            this.readyQueue = [];
+            this.pid = 0;
         }
+        Kernel.prototype.loadProgram = function (program) {
+            var base = _Manager.loadProgram(program);
+            var pcb = new TSOS.Pcb(this.pid, base);
+            this.readyQueue.push(pcb);
+            this.pid++;
+            return this.pid - 1;
+        };
         //
         // OS Startup and Shutdown Routines
         //
         Kernel.prototype.krnBootstrap = function () {
+            _Manager = new TSOS.Manager();
             TSOS.Control.hostLog("bootstrap", "host"); // Use hostLog because we ALWAYS want this, even if _Trace is off.
             // Initialize our global queues.
             _KernelInterruptQueue = new TSOS.Queue(); // A (currently) non-priority queue for interrupt requests (IRQs).

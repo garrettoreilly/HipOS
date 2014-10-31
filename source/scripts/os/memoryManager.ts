@@ -17,12 +17,12 @@ module TSOS {
             }
         }
 
-        public getAddress(addr): string {
-            return this.memory.getAddress(addr);
+        public getAddress(addr): number {
+            return parseInt(this.memory.getAddress(addr), 16);
         }
 
         public setAddress(addr, value): void {
-            this.memory.setAddress(addr, value);
+            this.memory.setAddress(addr, value.toString(16));
         }
 
         public loadProgram(program, pcb): number {

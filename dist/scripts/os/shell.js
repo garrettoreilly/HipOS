@@ -306,6 +306,8 @@ var TSOS;
                     return;
                 }
             }
+            var pid = _Kernel.loadProgram(program);
+            _StdOut.putText("PID: " + pid);
         };
         return Shell;
     })();

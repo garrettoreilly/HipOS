@@ -20,16 +20,18 @@ module TSOS {
         private running;
         private pid = 0;
 
-        public loadProgram(program): void {
+        public loadProgram(program): number {
             var base = _Manager.loadProgram(program);
             var pcb = new Pcb(this.pid, base);
             this.readyQueue.push(pcb);
             this.pid++;
+            return this.pid - 1;
         }
         //
         // OS Startup and Shutdown Routines
         //
         public krnBootstrap() {      // Page 8. {
+            _Manager = new Manager();
             Control.hostLog("bootstrap", "host");  // Use hostLog because we ALWAYS want this, even if _Trace is off.
 
             // Initialize our global queues.

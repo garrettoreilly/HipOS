@@ -372,7 +372,8 @@ module TSOS {
                     return;
                 }
             }
-            _Kernel.loadProgram(program);
+            var pid = _Kernel.loadProgram(program);
+            _StdOut.putText("PID: " + pid);
         }
     }
 }

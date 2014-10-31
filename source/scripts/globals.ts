@@ -26,7 +26,7 @@ var KEYBOARD_IRQ: number = 1;
 // Global Variables
 //
 var _CPU: TSOS.Cpu;  // Utilize TypeScript's type annotation system to ensure that _CPU is an instance of the Cpu class.
-var _Manager: TSOS.Manager; // Access memory through the manager.
+var _Manager;// = new Manager(); // Access memory through the manager.
 
 var _OSclock: number = 0;  // Page 23.
 
