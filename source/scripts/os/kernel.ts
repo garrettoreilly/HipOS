@@ -30,6 +30,18 @@ module TSOS {
             this.pid++;
             return this.pid - 1;
         }
+
+        public runProgram(programPid) {
+            var i = 0;
+            while (i < this.readyQueue.length) {
+                if (programPid == this.readyQueue[i].pid) {
+                    this.running = this.readyQueue[i];
+                    this.readyQueue = this.readyQueue.splice(i, 1);
+                    this.running.setCpuState();
+                }
+            }
+        }
+    
         //
         // OS Startup and Shutdown Routines
         //
