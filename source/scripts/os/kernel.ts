@@ -1,4 +1,5 @@
 ///<reference path="../utils.ts" />
+///<reference path="processControlBlock.ts" />
 
 /* ------------
      Kernel.ts
@@ -14,6 +15,17 @@
 module TSOS {
 
     export class Kernel {
+
+        private readyQueue = [];
+        private running;
+        private pid = 0;
+
+        public loadProgram(program): void {
+            var base = _Manager.loadProgram(program);
+            var pcb = new Pcb(this.pid, base);
+            this.readyQueue.push(pcb);
+            this.pid++;
+        }
         //
         // OS Startup and Shutdown Routines
         //

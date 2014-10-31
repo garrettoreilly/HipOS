@@ -6,11 +6,12 @@ module TSOS {
 
         memory = new Memory();
 
-        public segments: boolean[] = [false, false, false];
+        public segments: boolean[] = [true, true, true];
 
         public getSegment(): number {
             for (var i = 0; i < this.segments.length; i++) {
                 if (this.segments[i]) {
+                    this.segments[i] = false;
                     return i * 256;
                 }
             }
@@ -22,6 +23,16 @@ module TSOS {
 
         public setAddress(addr, value): void {
             this.memory.setAddress(addr, value);
+        }
+
+        public loadProgram(program, pcb): number {
+            var i = 0;
+            var base = this.getSegment();
+            while (i < program.length) {
+                this.memory.setAddress(base + i, program[i]);
+                i++;
+            }
+            return base;
         }
     }
 }

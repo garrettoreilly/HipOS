@@ -7,7 +7,7 @@ module TSOS {
         public Xreg: number = 0;
         public Yreg: number = 0;
         public Zflag: number = 0;
-        public isExecuting: boolean = true;
+        public isExecuting: boolean = false;
         public instruction: string = "";
         public pid: number = 0;
         public segment: number = 0;
