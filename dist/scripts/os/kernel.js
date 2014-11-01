@@ -32,10 +32,10 @@ var TSOS;
             while (i < this.readyQueue.length) {
                 if (programPid == this.readyQueue[i].pid) {
                     this.running = this.readyQueue[i];
-                    this.readyQueue = this.readyQueue.splice(i, 1);
+                    this.readyQueue.splice(i, 1);
                     this.running.setCpuState();
-                    i++;
                 }
+                i++;
             }
         };
         //
@@ -133,7 +133,7 @@ var TSOS;
                     break;
                 case BREAK_IRQ:
                     _CPU.isExecuting = false;
-                    this.running.copyCpuState(_CPU.PC, _CPU.Acc, _CPU.Xreg, _CPU.Yreg, _CPU.Zflag, _CPU.isExecuting, _CPU.instruction);
+                    this.running.copyCpuState(_CPU.PC, _CPU.Acc, _CPU.Xreg, _CPU.Yreg, _CPU.Zflag, _CPU.isExecuting, _CPU.instruction, _CPU.baseAddress);
                     this.running = undefined;
                     break;
                 case SOFTWARE_IRQ:

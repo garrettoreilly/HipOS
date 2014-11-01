@@ -16,12 +16,12 @@ var TSOS;
             return -1;
         };
         Manager.prototype.getAddress = function (addr) {
-            return parseInt(this.memory.getAddress(addr), 16);
+            return parseInt(this.memory.getAddress(addr + _Kernel.running.baseAddress), 16);
         };
         Manager.prototype.setAddress = function (addr, value) {
-            this.memory.setAddress(addr, value.toString(16));
+            this.memory.setAddress(addr + _Kernel.running.baseAddress, value.toString(16));
         };
-        Manager.prototype.loadProgram = function (program, pcb) {
+        Manager.prototype.loadProgram = function (program) {
             var i = 0;
             var base = this.getSegment();
             if (base == -1) {

@@ -25,7 +25,8 @@ module TSOS {
                     public Yreg: number = 0,
                     public Zflag: number = 0,
                     public isExecuting: boolean = false,
-                    public instruction: number = 0) {
+                    public instruction: number = 0,
+                    public baseAddress: number = 0) {
 
         }
 
@@ -37,6 +38,7 @@ module TSOS {
             this.Zflag = 0;
             this.isExecuting = false;
             this.instruction = 0;
+            this.baseAddress = 0;
         }
 
         public cycle(): void {
@@ -44,7 +46,6 @@ module TSOS {
             // TODO: Accumulate CPU usage and profiling statistics here.
             // Do the real work here. Be sure to set this.isExecuting appropriately.
             this.instruction = _Manager.getAddress(this.PC);
-            console.log(this.instruction);
             this.PC++;
             if (this.instruction == 0xA9) {
                 this.loadConstant();

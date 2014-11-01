@@ -8,7 +8,7 @@ var TSOS;
             this.Yreg = 0;
             this.Zflag = 0;
             this.isExecuting = true;
-            this.instruction = "";
+            this.instruction = 0;
             this.pid = 0;
             this.baseAddress = 0;
             this.pid = pid;
@@ -22,8 +22,9 @@ var TSOS;
             _CPU.Zflag = this.Zflag;
             _CPU.isExecuting = this.isExecuting;
             _CPU.instruction = this.instruction;
+            _CPU.baseAddress = this.baseAddress;
         };
-        Pcb.prototype.copyCpuState = function (PC, Acc, Xreg, Yreg, Zflag, isExecuting, instruction) {
+        Pcb.prototype.copyCpuState = function (PC, Acc, Xreg, Yreg, Zflag, isExecuting, instruction, baseAddress) {
             this.PC = PC;
             this.Acc = Acc;
             this.Xreg = Xreg;
@@ -31,6 +32,7 @@ var TSOS;
             this.Zflag = Zflag;
             this.isExecuting = isExecuting;
             this.instruction = instruction;
+            this.baseAddress = baseAddress;
         };
         return Pcb;
     })();

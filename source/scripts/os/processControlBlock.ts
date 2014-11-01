@@ -8,7 +8,7 @@ module TSOS {
         public Yreg: number = 0;
         public Zflag: number = 0;
         public isExecuting: boolean = true;
-        public instruction: string = "";
+        public instruction: number = 0;
         public pid: number = 0;
         public baseAddress: number = 0;
 
@@ -25,9 +25,10 @@ module TSOS {
             _CPU.Zflag = this.Zflag;
             _CPU.isExecuting = this.isExecuting;
             _CPU.instruction = this.instruction;
+            _CPU.baseAddress = this.baseAddress;
         }
 
-        public copyCpuState(PC, Acc, Xreg, Yreg, Zflag, isExecuting, instruction): void {
+        public copyCpuState(PC, Acc, Xreg, Yreg, Zflag, isExecuting, instruction, baseAddress): void {
             this.PC = PC;
             this.Acc = Acc;
             this.Xreg = Xreg;
@@ -35,6 +36,7 @@ module TSOS {
             this.Zflag = Zflag;
             this.isExecuting = isExecuting;
             this.instruction = instruction;
+            this.baseAddress = baseAddress;
         }
 
     }

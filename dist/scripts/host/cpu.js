@@ -16,7 +16,7 @@
 var TSOS;
 (function (TSOS) {
     var Cpu = (function () {
-        function Cpu(PC, Acc, Xreg, Yreg, Zflag, isExecuting, instruction) {
+        function Cpu(PC, Acc, Xreg, Yreg, Zflag, isExecuting, instruction, baseAddress) {
             if (PC === void 0) { PC = 0; }
             if (Acc === void 0) { Acc = 0; }
             if (Xreg === void 0) { Xreg = 0; }
@@ -24,6 +24,7 @@ var TSOS;
             if (Zflag === void 0) { Zflag = 0; }
             if (isExecuting === void 0) { isExecuting = false; }
             if (instruction === void 0) { instruction = 0; }
+            if (baseAddress === void 0) { baseAddress = 0; }
             this.PC = PC;
             this.Acc = Acc;
             this.Xreg = Xreg;
@@ -31,6 +32,7 @@ var TSOS;
             this.Zflag = Zflag;
             this.isExecuting = isExecuting;
             this.instruction = instruction;
+            this.baseAddress = baseAddress;
         }
         Cpu.prototype.init = function () {
             this.PC = 0;
@@ -40,13 +42,13 @@ var TSOS;
             this.Zflag = 0;
             this.isExecuting = false;
             this.instruction = 0;
+            this.baseAddress = 0;
         };
         Cpu.prototype.cycle = function () {
             _Kernel.krnTrace('CPU cycle');
             // TODO: Accumulate CPU usage and profiling statistics here.
             // Do the real work here. Be sure to set this.isExecuting appropriately.
             this.instruction = _Manager.getAddress(this.PC);
-            console.log(this.instruction);
             this.PC++;
             if (this.instruction == 0xA9) {
                 this.loadConstant();

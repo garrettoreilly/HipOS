@@ -20,14 +20,14 @@ module TSOS {
         }
 
         public getAddress(addr): number {
-            return parseInt(this.memory.getAddress(addr), 16);
+            return parseInt(this.memory.getAddress(addr + _Kernel.running.baseAddress), 16);
         }
 
         public setAddress(addr, value): void {
-            this.memory.setAddress(addr, value.toString(16));
+            this.memory.setAddress(addr + _Kernel.running.baseAddress, value.toString(16));
         }
 
-        public loadProgram(program, pcb): number {
+        public loadProgram(program): number {
             var i = 0;
             var base = this.getSegment();
             if (base == -1) {
