@@ -377,6 +377,10 @@ module TSOS {
                     return;
                 }
             }
+            if (program.length > 256) {
+                _StdOut.putText("C'mon! I can't remember all that!");
+                return;
+            }
             var pid = _Kernel.loadProgram(program);
             if (pid == -1) {
                 _StdOut.putText("You already filled the memory. Pay attention.");

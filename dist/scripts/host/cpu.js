@@ -135,16 +135,34 @@ var TSOS;
             this.Yreg = _Manager.getAddress(_Manager.getAddress(this.PC));
         };
         Cpu.prototype.breakSys = function () {
+            this.PC = 0;
+            while (this.PC < 256) {
+                _Manager.setAddress(this.PC, 0);
+                this.PC++;
+            }
+            this.PC = 0;
+            if (_Kernel.running.baseAddress == 0) {
+                _Manager.segments[0] = true;
+            }
+            else if (_Kernel.running.baseAddress = 256) {
+                _Manager.segments[1] = true;
+            }
+            else {
+                _Manager.segments[2] = true;
+            }
             _KernelInterruptQueue.enqueue(new TSOS.Interrupt(BREAK_IRQ, []));
         };
         Cpu.prototype.compareToX = function () {
             if (_Manager.getAddress(_Manager.getAddress(this.PC)) == this.Xreg) {
                 this.Zflag = 1;
             }
+            else {
+                this.Zflag = 0;
+            }
         };
         Cpu.prototype.branchN = function () {
             if (this.Zflag == 0) {
-                this.PC = (this.PC + 1 + _Manager.getAddress(this.PC)) % 256;
+                this.PC = (this.PC + _Manager.getAddress(this.PC)) % 256;
             }
         };
         Cpu.prototype.incrementByte = function () {

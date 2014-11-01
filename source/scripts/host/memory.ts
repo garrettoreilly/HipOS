@@ -8,6 +8,7 @@ module TSOS {
             for (var i = 0; i < 768; i++) {
                 this.memory[i] = "00";
             }
+            (<HTMLInputElement>document.getElementById("memory")).value = this.memory.join(" ");
         }
 
         public getAddress(addr): string {
@@ -15,7 +16,11 @@ module TSOS {
         }
 
         public setAddress(addr, value): void {
+            if (value.length == 1) {
+                value = "0" + value;
+            }
             this.memory[addr] = value;
+            (<HTMLInputElement>document.getElementById("memory")).value = this.memory.join(" ");
         }
     }
 }

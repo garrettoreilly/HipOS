@@ -28,11 +28,11 @@ module TSOS {
         }
 
         public loadProgram(program): number {
-            var i = 0;
             var base = this.getSegment();
             if (base == -1) {
                 return -1;
             }
+            var i = 0;
             while (i < program.length) {
                 this.memory.setAddress(base + i, program[i]);
                 i++;

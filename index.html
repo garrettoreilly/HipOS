@@ -86,11 +86,21 @@
     </div>
 
     <div id="divLog" style="margin-left:520px;">
-        <label>
+        <label style="float:left;">
             Host Log
             <br>
             <textarea name="taHostLog"
                       id  ="taHostLog"
+                      rows="26"
+                      cols="48"
+                      readonly
+            ></textarea>
+        </label>
+        <label style="float:left;">
+            Memory
+            <br>
+            <textarea name="Memory"
+                      id  ="memory"
                       rows="26"
                       cols="48"
             ></textarea>
@@ -98,12 +108,29 @@
     </div>
 
     <div id="divUserProgramInput" style="margin-left:520px;">
-        <label>
+        <label style ="float:left;">
             User Program Input
             <br>
             <textarea name="taProgramInput"
                       id  ="taProgramInput"
                       rows="8"
+                      cols="48"
+            ></textarea>
+        </label>
+        <label style="float:left;">
+            CPU
+            <br>
+            <textarea name="CPU"
+                      id  ="cpu"
+                      rows="1"
+                      cols="48"
+            ></textarea>
+            <br>
+            PCB
+            <br>
+            <textarea name="PCB"
+                      id  ="pcb"
+                      rows="1"
                       cols="48"
             ></textarea>
         </label>

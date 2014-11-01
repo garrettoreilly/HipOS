@@ -103,6 +103,7 @@ module TSOS {
 
 
         public krnOnCPUClockPulse() {
+            (<HTMLInputElement>document.getElementById("cpu")).value = "PC: " + _CPU.PC + " IR: " + _CPU.instruction.toString(16).toUpperCase() + " Acc: " + _CPU.Acc + " Xreg: " + _CPU.Xreg + " Yreg: " + _CPU.Yreg + " Z Flag: " + _CPU.Zflag;
             /* This gets called from the host hardware sim every time there is a hardware clock pulse.
                This is NOT the same as a TIMER, which causes an interrupt and is handled like other interrupts.
                This, on the other hand, is the clock pulse from the hardware (or host) that tells the kernel
@@ -158,8 +159,9 @@ module TSOS {
                     break;
 
                 case BREAK_IRQ:
-                    _CPU.isExecuting = false;
                     this.running.copyCpuState(_CPU.PC, _CPU.Acc, _CPU.Xreg, _CPU.Yreg, _CPU.Zflag, _CPU.isExecuting, _CPU.instruction, _CPU.baseAddress);
+                    (<HTMLInputElement>document.getElementById("pcb")).value = "PC: " + this.running.PC + " IR: " + this.running.instruction.toString(16).toUpperCase() + " Acc: " + this.running.Acc + " Xreg: " + this.running.Xreg + " Yreg: " + this.running.Yreg + " Z Flag: " + this.running.Zflag;
+                    _CPU.isExecuting = false;
                     this.running = undefined;
                     break;
 
