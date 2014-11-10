@@ -140,7 +140,7 @@ var TSOS;
                     _StdIn.handleInput();
                     break;
                 case BREAK_IRQ:
-                    this.running.copyCpuState(_CPU.PC, _CPU.Acc, _CPU.Xreg, _CPU.Yreg, _CPU.Zflag, _CPU.isExecuting, _CPU.instruction, _CPU.baseAddress);
+                    this.running.copyCpuState(_CPU.PC, _CPU.Acc, _CPU.Xreg, _CPU.Yreg, _CPU.Zflag, _CPU.isExecuting, _CPU.instruction, _CPU.baseAddress, _CPU.limitAddress);
                     document.getElementById("pcb").value = "PC: " + this.running.PC + " IR: " + this.running.instruction.toString(16).toUpperCase() + " Acc: " + this.running.Acc + " Xreg: " + this.running.Xreg + " Yreg: " + this.running.Yreg + " Z Flag: " + this.running.Zflag;
                     _CPU.isExecuting = false;
                     this.running = undefined;

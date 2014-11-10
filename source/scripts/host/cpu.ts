@@ -1,4 +1,5 @@
 ///<reference path="../globals.ts" />
+///<reference path="../os/interrupt.ts" />
 
 /* ------------
      CPU.ts
@@ -26,7 +27,8 @@ module TSOS {
                     public Zflag: number = 0,
                     public isExecuting: boolean = false,
                     public instruction: number = 0,
-                    public baseAddress: number = 0) {
+                    public baseAddress: number = 0,
+                    public limitAddress: number = 0) {
 
         }
 
@@ -39,6 +41,7 @@ module TSOS {
             this.isExecuting = false;
             this.instruction = 0;
             this.baseAddress = 0;
+            this.limitAddress = 0;
         }
 
         public cycle(): void {

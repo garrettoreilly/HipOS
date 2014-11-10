@@ -21,10 +21,21 @@ module TSOS {
         }
 
         public getAddress(addr): number {
-            return parseInt(this.memory.getAddress(addr + _Kernel.running.baseAddress), 16);
+            if (addr > 255) {
+                _StdOut.putText("Memory out of bounds. Use your own memory!");
+                _CPU.breakSys();
+            }
+            if (_Kernel.running != undefined) {
+                addr += _Kernel.running.baseAddress;
+            }
+            return parseInt(this.memory.getAddress(addr), 16);
         }
 
         public setAddress(addr, value): void {
+            if (addr > 255) {
+                _StdOut.putText("Memory out of bounds. Use your own memory!");
+                _CPU.breakSys();
+            }
             if (_Kernel.running != undefined) {
                 addr += _Kernel.running.baseAddress;
             }

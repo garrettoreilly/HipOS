@@ -1,4 +1,5 @@
 ///<reference path="../globals.ts" />
+///<reference path="../os/interrupt.ts" />
 /* ------------
      CPU.ts
 
@@ -16,7 +17,7 @@
 var TSOS;
 (function (TSOS) {
     var Cpu = (function () {
-        function Cpu(PC, Acc, Xreg, Yreg, Zflag, isExecuting, instruction, baseAddress) {
+        function Cpu(PC, Acc, Xreg, Yreg, Zflag, isExecuting, instruction, baseAddress, limitAddress) {
             if (PC === void 0) { PC = 0; }
             if (Acc === void 0) { Acc = 0; }
             if (Xreg === void 0) { Xreg = 0; }
@@ -25,6 +26,7 @@ var TSOS;
             if (isExecuting === void 0) { isExecuting = false; }
             if (instruction === void 0) { instruction = 0; }
             if (baseAddress === void 0) { baseAddress = 0; }
+            if (limitAddress === void 0) { limitAddress = 0; }
             this.PC = PC;
             this.Acc = Acc;
             this.Xreg = Xreg;
@@ -33,6 +35,7 @@ var TSOS;
             this.isExecuting = isExecuting;
             this.instruction = instruction;
             this.baseAddress = baseAddress;
+            this.limitAddress = limitAddress;
         }
         Cpu.prototype.init = function () {
             this.PC = 0;
@@ -43,6 +46,7 @@ var TSOS;
             this.isExecuting = false;
             this.instruction = 0;
             this.baseAddress = 0;
+            this.limitAddress = 0;
         };
         Cpu.prototype.cycle = function () {
             _Kernel.krnTrace('CPU cycle');

@@ -1,3 +1,4 @@
+///<reference path="../globals.ts" />
 module TSOS {
 
     export class Pcb {
@@ -11,10 +12,12 @@ module TSOS {
         public instruction: number = 0;
         public pid: number = 0;
         public baseAddress: number = 0;
+        public limitAddress: number = 0;
 
         constructor(pid, base) {
             this.pid = pid;
             this.baseAddress = base;
+            this.limitAddress = base + 255;
         }
 
         public setCpuState(): void {
@@ -26,9 +29,10 @@ module TSOS {
             _CPU.isExecuting = this.isExecuting;
             _CPU.instruction = this.instruction;
             _CPU.baseAddress = this.baseAddress;
+            _CPU.limitAddress = this.limitAddress;
         }
 
-        public copyCpuState(PC, Acc, Xreg, Yreg, Zflag, isExecuting, instruction, baseAddress): void {
+        public copyCpuState(PC, Acc, Xreg, Yreg, Zflag, isExecuting, instruction, baseAddress, limitAddress): void {
             this.PC = PC;
             this.Acc = Acc;
             this.Xreg = Xreg;
@@ -37,6 +41,7 @@ module TSOS {
             this.isExecuting = isExecuting;
             this.instruction = instruction;
             this.baseAddress = baseAddress;
+            this.limitAddress = limitAddress;
         }
 
     }

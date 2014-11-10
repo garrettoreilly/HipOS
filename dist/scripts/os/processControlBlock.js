@@ -1,3 +1,4 @@
+///<reference path="../globals.ts" />
 var TSOS;
 (function (TSOS) {
     var Pcb = (function () {
@@ -11,8 +12,10 @@ var TSOS;
             this.instruction = 0;
             this.pid = 0;
             this.baseAddress = 0;
+            this.limitAddress = 0;
             this.pid = pid;
             this.baseAddress = base;
+            this.limitAddress = base + 255;
         }
         Pcb.prototype.setCpuState = function () {
             _CPU.PC = this.PC;
@@ -23,8 +26,9 @@ var TSOS;
             _CPU.isExecuting = this.isExecuting;
             _CPU.instruction = this.instruction;
             _CPU.baseAddress = this.baseAddress;
+            _CPU.limitAddress = this.limitAddress;
         };
-        Pcb.prototype.copyCpuState = function (PC, Acc, Xreg, Yreg, Zflag, isExecuting, instruction, baseAddress) {
+        Pcb.prototype.copyCpuState = function (PC, Acc, Xreg, Yreg, Zflag, isExecuting, instruction, baseAddress, limitAddress) {
             this.PC = PC;
             this.Acc = Acc;
             this.Xreg = Xreg;
@@ -33,6 +37,7 @@ var TSOS;
             this.isExecuting = isExecuting;
             this.instruction = instruction;
             this.baseAddress = baseAddress;
+            this.limitAddress = limitAddress;
         };
         return Pcb;
     })();
