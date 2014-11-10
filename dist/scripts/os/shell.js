@@ -1,3 +1,4 @@
+///<reference path="../globals.ts" />
 ///<reference path="shellCommand.ts" />
 ///<reference path="userCommand.ts" />
 ///<reference path="../utils.ts" />
@@ -66,6 +67,9 @@ var TSOS;
             this.commandList[this.commandList.length] = sc;
             // run
             sc = new TSOS.ShellCommand(this.shellRun, "run", "- Run user program.");
+            this.commandList[this.commandList.length] = sc;
+            // clear memory
+            sc = new TSOS.ShellCommand(this.shellClear, "clearmem", "- Clear the memory.");
             this.commandList[this.commandList.length] = sc;
             // processes - list the running processes and their IDs
             // kill <id> - kills the specified process id.
@@ -323,6 +327,9 @@ var TSOS;
         };
         Shell.prototype.shellRun = function (args) {
             _Kernel.runProgram(args);
+        };
+        Shell.prototype.shellClear = function (args) {
+            _Manager.clearMemory();
         };
         return Shell;
     })();

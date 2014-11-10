@@ -1,3 +1,4 @@
+///<reference path="../globals.ts" />
 ///<reference path="../host/memory.ts" />
 var TSOS;
 (function (TSOS) {
@@ -19,7 +20,10 @@ var TSOS;
             return parseInt(this.memory.getAddress(addr + _Kernel.running.baseAddress), 16);
         };
         Manager.prototype.setAddress = function (addr, value) {
-            this.memory.setAddress(addr + _Kernel.running.baseAddress, value.toString(16));
+            if (_Kernel.running != undefined) {
+                addr += _Kernel.running.baseAddress;
+            }
+            this.memory.setAddress(addr, value.toString(16));
         };
         Manager.prototype.loadProgram = function (program) {
             var base = this.getSegment();
@@ -32,6 +36,11 @@ var TSOS;
                 i++;
             }
             return base;
+        };
+        Manager.prototype.clearMemory = function () {
+            for (var i = 0; i < 768; i++) {
+                this.setAddress(i, 0);
+            }
         };
         return Manager;
     })();

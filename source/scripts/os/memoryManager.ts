@@ -1,3 +1,4 @@
+///<reference path="../globals.ts" />
 ///<reference path="../host/memory.ts" />
 
 module TSOS {
@@ -24,7 +25,10 @@ module TSOS {
         }
 
         public setAddress(addr, value): void {
-            this.memory.setAddress(addr + _Kernel.running.baseAddress, value.toString(16));
+            if (_Kernel.running != undefined) {
+                addr += _Kernel.running.baseAddress;
+            }
+            this.memory.setAddress(addr, value.toString(16));
         }
 
         public loadProgram(program): number {
@@ -38,6 +42,12 @@ module TSOS {
                 i++;
             }
             return base;
+        }
+
+        public clearMemory(): void {
+            for (var i = 0; i < 768; i++) {
+                this.setAddress(i, 0);
+            }
         }
     }
 }

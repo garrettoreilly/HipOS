@@ -1,3 +1,4 @@
+///<reference path="../globals.ts" />
 ///<reference path="shellCommand.ts" />
 ///<reference path="userCommand.ts" />
 ///<reference path="../utils.ts" />
@@ -116,6 +117,12 @@ module TSOS {
             sc = new ShellCommand(this.shellRun,
                                   "run",
                                   "- Run user program.");
+            this.commandList[this.commandList.length] = sc;
+
+            // clear memory
+            sc = new ShellCommand(this.shellClear,
+                                  "clearmem",
+                                  "- Clear the memory.");
             this.commandList[this.commandList.length] = sc;
 
             // processes - list the running processes and their IDs
@@ -391,6 +398,10 @@ module TSOS {
 
         public shellRun(args) {
             _Kernel.runProgram(args);
+        }
+
+        public shellClear(args) {
+            _Manager.clearMemory();
         }
     }
 }
