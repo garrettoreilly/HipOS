@@ -17,24 +17,26 @@ var TSOS;
             return -1;
         };
         Manager.prototype.getAddress = function (addr) {
-            if (addr > 255) {
-                _StdOut.putText("Memory out of bounds. Use your own memory!");
-                _CPU.breakSys();
-            }
             if (_Kernel.running != undefined) {
                 addr += _Kernel.running.baseAddress;
+            }
+            if (addr > _Kernel.running.limitAddress) {
+                _StdOut.putText("Memory out of bounds. Use your own memory!");
+                _CPU.breakSys();
             }
             return parseInt(this.memory.getAddress(addr), 16);
         };
         Manager.prototype.setAddress = function (addr, value) {
-            if (addr > 255) {
-                _StdOut.putText("Memory out of bounds. Use your own memory!");
-                _CPU.breakSys();
-            }
             if (_Kernel.running != undefined) {
                 addr += _Kernel.running.baseAddress;
             }
-            this.memory.setAddress(addr, value.toString(16));
+            if (addr > _Kernel.running.limitAddress) {
+                _StdOut.putText("Memory out of bounds. Use your own memory!");
+                _CPU.breakSys();
+            }
+            else {
+                this.memory.setAddress(addr, value.toString(16));
+            }
         };
         Manager.prototype.loadProgram = function (program) {
             var base = this.getSegment();
