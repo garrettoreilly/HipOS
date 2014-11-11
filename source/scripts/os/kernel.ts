@@ -23,6 +23,7 @@ module TSOS {
 
     export class Kernel {
 
+        public residentList = []
         public readyQueue = [];
         public running;
         private pid = 0;
@@ -33,17 +34,18 @@ module TSOS {
                 return -1;
             }
             var pcb = new Pcb(this.pid, base);
-            this.readyQueue.push(pcb);
+            this.residentList.push(pcb);
             this.pid++;
             return this.pid - 1;
         }
 
         public runProgram(programPid) {
             var i = 0;
-            while (i < this.readyQueue.length) {
-                if (programPid == this.readyQueue[i].pid) {
-                    this.running = this.readyQueue[i];
-                    this.readyQueue.splice(i, 1);
+            while (i < this.residentList.length) {
+                if (programPid == this.residentList[i].pid) {
+                    this.running = this.residentList[i];
+                    this.readyQueue.push(this.residentList[i]);
+                    this.residentList.splice(i, 1);
                     this.running.setCpuState();
                 }
                 i++;
