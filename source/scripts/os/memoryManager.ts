@@ -34,13 +34,13 @@ module TSOS {
         public setAddress(addr, value): void {
             if (_Kernel.running != undefined) {
                 addr += _Kernel.running.baseAddress;
+                if (addr > _Kernel.running.limitAddress) {
+                    _StdOut.putText("Memory out of bounds. Use your own memory!");
+                    _CPU.breakSys();
+                    return;
+                }
             }
-            if (addr > _Kernel.running.limitAddress) {
-                _StdOut.putText("Memory out of bounds. Use your own memory!");
-                _CPU.breakSys();
-            } else {
-                this.memory.setAddress(addr, value.toString(16));
-            }
+            this.memory.setAddress(addr, value.toString(16));
         }
 
         public loadProgram(program): number {
