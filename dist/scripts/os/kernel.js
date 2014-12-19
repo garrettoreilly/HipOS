@@ -54,6 +54,21 @@ var TSOS;
                 }
             }
         };
+        Kernel.prototype.runAll = function () {
+            while (this.residentList.length > 0) {
+                this.readyQueue.push(this.residentList.shift());
+            }
+        };
+        Kernel.prototype.pS = function () {
+            _StdOut.putText("Active processes: ");
+            for (var i = 0; i < this.residentList.length; i++) {
+                _StdOut.putText(this.residentList[i].pid + ", ");
+            }
+            for (var i = 0; i < this.readyQueue.length; i++) {
+                _StdOut.putText(this.readyQueue[i].pid + ", ");
+            }
+            _StdOut.putText("" + this.running.pid);
+        };
         //
         // OS Startup and Shutdown Routines
         //
@@ -124,8 +139,6 @@ var TSOS;
             else if (_CPU.isExecuting) {
                 _CPU.cycle();
                 _Scheduler.incTicks();
-                console.log("Ticks: " + _Scheduler.ticks);
-                console.log("pid: " + this.running.pid);
             }
             else {
                 this.krnTrace("Idle");

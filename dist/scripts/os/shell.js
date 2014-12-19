@@ -71,6 +71,15 @@ var TSOS;
             // clear memory
             sc = new TSOS.ShellCommand(this.shellClear, "clearmem", "- Clear the memory.");
             this.commandList[this.commandList.length] = sc;
+            // Run all programs
+            sc = new TSOS.ShellCommand(this.shellRunAll, "runall", "- Run all programs.");
+            this.commandList[this.commandList.length] = sc;
+            // Set quantum
+            sc = new TSOS.ShellCommand(this.shellQuantum, "quantum", "<int> - Set the quantum of the scheduler.");
+            this.commandList[this.commandList.length] = sc;
+            // Display active processes
+            sc = new TSOS.ShellCommand(this.shellPS, "ps", "- Display active processes.");
+            this.commandList[this.commandList.length] = sc;
             // processes - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             // Display the initial prompt.
@@ -330,6 +339,20 @@ var TSOS;
         };
         Shell.prototype.shellClear = function (args) {
             _Manager.clearMemory();
+        };
+        Shell.prototype.shellRunAll = function (args) {
+            _Kernel.runAll();
+        };
+        Shell.prototype.shellQuantum = function (args) {
+            if (args.length > 0) {
+                _Scheduler.setQuantum(args);
+            }
+            else {
+                _StdOut.putText("Usage: quantum <int>  Please supply a number.");
+            }
+        };
+        Shell.prototype.shellPS = function (args) {
+            _Kernel.pS();
         };
         return Shell;
     })();

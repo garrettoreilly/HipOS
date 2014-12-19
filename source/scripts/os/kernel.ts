@@ -58,6 +58,23 @@ module TSOS {
                 }
             }
         }
+
+        public runAll() {
+            while (this.residentList.length > 0) {
+                this.readyQueue.push(this.residentList.shift());
+            }
+        }
+        
+        public pS() {
+            _StdOut.putText("Active processes: ");
+            for (var i = 0; i < this.residentList.length; i++) {
+                _StdOut.putText(this.residentList[i].pid + ", ");
+            }
+            for (var i = 0; i < this.readyQueue.length; i++) {
+                _StdOut.putText(this.readyQueue[i].pid + ", ");
+            }
+            _StdOut.putText("" + this.running.pid);
+        }
     
         //
         // OS Startup and Shutdown Routines
@@ -140,8 +157,6 @@ module TSOS {
             } else if (_CPU.isExecuting) { // If there are no interrupts then run one CPU cycle if there is anything being processed. {
                 _CPU.cycle();
                 _Scheduler.incTicks();
-                console.log("Ticks: " + _Scheduler.ticks);
-                console.log("pid: " + this.running.pid);
             } else {                      // If there are no interrupts and there is nothing being executed then just be idle. {
                 this.krnTrace("Idle");
             }

@@ -116,6 +116,9 @@ var TSOS;
             else if (this.instruction == 0xFF) {
                 this.systemCall();
             }
+            else {
+                this.breakSys();
+            }
         };
         Cpu.prototype.loadConstant = function () {
             this.Acc = _Manager.getAddress(this.PC);

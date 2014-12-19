@@ -98,6 +98,8 @@ module TSOS {
                 this.PC++;
             } else if (this.instruction == 0xFF) {
                 this.systemCall();
+            } else {
+                this.breakSys();
             }
         }
 

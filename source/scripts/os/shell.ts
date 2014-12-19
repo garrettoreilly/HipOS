@@ -125,6 +125,24 @@ module TSOS {
                                   "- Clear the memory.");
             this.commandList[this.commandList.length] = sc;
 
+            // Run all programs
+            sc = new ShellCommand(this.shellRunAll,
+                                  "runall",
+                                  "- Run all programs.");
+            this.commandList[this.commandList.length] = sc;
+
+            // Set quantum
+            sc = new ShellCommand(this.shellQuantum,
+                                  "quantum",
+                                  "<int> - Set the quantum of the scheduler.");
+            this.commandList[this.commandList.length] = sc;
+
+            // Display active processes
+            sc = new ShellCommand(this.shellPS,
+                                  "ps",
+                                  "- Display active processes.");
+            this.commandList[this.commandList.length] = sc;
+
             // processes - list the running processes and their IDs
             // kill <id> - kills the specified process id.
 
@@ -402,6 +420,22 @@ module TSOS {
 
         public shellClear(args) {
             _Manager.clearMemory();
+        }
+
+        public shellRunAll(args) {
+            _Kernel.runAll();
+        }
+
+        public shellQuantum(args) {
+            if (args.length > 0) {
+                _Scheduler.setQuantum(args);
+            } else {
+                _StdOut.putText("Usage: quantum <int>  Please supply a number.");
+            }
+        }
+
+        public shellPS(args) {
+            _Kernel.pS();
         }
     }
 }

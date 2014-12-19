@@ -24,6 +24,7 @@ module TSOS {
                 _Kernel.readyQueue.push(_Kernel.running);
                 _Kernel.running = _Kernel.readyQueue.shift();
                 _Kernel.running.setCpuState();
+                _Kernel.krnTrace("Context switching to the max!! pid = " + _Kernel.running.pid);
             }
         }
     }
