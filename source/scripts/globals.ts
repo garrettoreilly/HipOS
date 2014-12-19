@@ -29,6 +29,7 @@ var SOFTWARE_IRQ: number = 3;
 //
 var _CPU: TSOS.Cpu;  // Utilize TypeScript's type annotation system to ensure that _CPU is an instance of the Cpu class.
 var _Manager;// = new Manager(); // Access memory through the manager.
+var _Scheduler;
 
 var _OSclock: number = 0;  // Page 23.
 

@@ -28,7 +28,8 @@ module TSOS {
                     public isExecuting: boolean = false,
                     public instruction: number = 0,
                     public baseAddress: number = 0,
-                    public limitAddress: number = 0) {
+                    public limitAddress: number = 0,
+                    public pid: number = 0) {
 
         }
 
@@ -42,6 +43,7 @@ module TSOS {
             this.instruction = 0;
             this.baseAddress = 0;
             this.limitAddress = 0;
+            this.pid = 0;
         }
 
         public cycle(): void {

@@ -17,7 +17,7 @@
 var TSOS;
 (function (TSOS) {
     var Cpu = (function () {
-        function Cpu(PC, Acc, Xreg, Yreg, Zflag, isExecuting, instruction, baseAddress, limitAddress) {
+        function Cpu(PC, Acc, Xreg, Yreg, Zflag, isExecuting, instruction, baseAddress, limitAddress, pid) {
             if (PC === void 0) { PC = 0; }
             if (Acc === void 0) { Acc = 0; }
             if (Xreg === void 0) { Xreg = 0; }
@@ -27,6 +27,7 @@ var TSOS;
             if (instruction === void 0) { instruction = 0; }
             if (baseAddress === void 0) { baseAddress = 0; }
             if (limitAddress === void 0) { limitAddress = 0; }
+            if (pid === void 0) { pid = 0; }
             this.PC = PC;
             this.Acc = Acc;
             this.Xreg = Xreg;
@@ -36,6 +37,7 @@ var TSOS;
             this.instruction = instruction;
             this.baseAddress = baseAddress;
             this.limitAddress = limitAddress;
+            this.pid = pid;
         }
         Cpu.prototype.init = function () {
             this.PC = 0;
@@ -47,6 +49,7 @@ var TSOS;
             this.instruction = 0;
             this.baseAddress = 0;
             this.limitAddress = 0;
+            this.pid = 0;
         };
         Cpu.prototype.cycle = function () {
             _Kernel.krnTrace('CPU cycle');

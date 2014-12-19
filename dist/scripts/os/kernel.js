@@ -7,6 +7,7 @@
 ///<reference path="queue.ts" />
 ///<reference path="shell.ts" />
 ///<reference path="deviceDriverKeyboard.ts" />
+///<reference path="cpuScheduler.ts" />
 /* ------------
      Kernel.ts
 
@@ -36,15 +37,21 @@ var TSOS;
             return this.pid - 1;
         };
         Kernel.prototype.runProgram = function (programPid) {
-            var i = 0;
-            while (i < this.residentList.length) {
-                if (programPid == this.residentList[i].pid) {
-                    this.running = this.residentList[i];
-                    this.readyQueue.push(this.residentList[i]);
-                    this.residentList.splice(i, 1);
-                    this.running.setCpuState();
+            var isReady = false;
+            for (var i = 0; i < this.readyQueue.length; i++) {
+                if (programPid == this.readyQueue[i].pid) {
+                    isReady = true;
                 }
-                i++;
+                break;
+            }
+            if (!isReady) {
+                while (i < this.residentList.length) {
+                    if (programPid == this.residentList[i].pid) {
+                        this.readyQueue.push(this.residentList[i]);
+                        this.residentList.splice(i, 1);
+                    }
+                    i++;
+                }
             }
         };
         //
@@ -52,6 +59,7 @@ var TSOS;
         //
         Kernel.prototype.krnBootstrap = function () {
             _Manager = new TSOS.Manager();
+            _Scheduler = new TSOS.Scheduler();
             TSOS.Control.hostLog("bootstrap", "host"); // Use hostLog because we ALWAYS want this, even if _Trace is off.
             // Initialize our global queues.
             _KernelInterruptQueue = new TSOS.Queue(); // A (currently) non-priority queue for interrupt requests (IRQs).
@@ -96,11 +104,16 @@ var TSOS;
             this.krnTrace("end shutdown OS");
         };
         Kernel.prototype.krnOnCPUClockPulse = function () {
-            document.getElementById("cpu").value = "PC: " + _CPU.PC + " IR: " + _CPU.instruction.toString(16).toUpperCase() + " Acc: " + _CPU.Acc + " Xreg: " + _CPU.Xreg + " Yreg: " + _CPU.Yreg + " Z Flag: " + _CPU.Zflag;
             /* This gets called from the host hardware sim every time there is a hardware clock pulse.
                This is NOT the same as a TIMER, which causes an interrupt and is handled like other interrupts.
                This, on the other hand, is the clock pulse from the hardware (or host) that tells the kernel
                that it has to look for interrupts and process them if it finds any.                           */
+            if (this.running == undefined && this.readyQueue.length > 0) {
+                this.running = this.readyQueue.shift();
+                this.running.setCpuState();
+                _Scheduler.ticks = 0;
+            }
+            document.getElementById("cpu").value = "PC: " + _CPU.PC + " IR: " + _CPU.instruction.toString(16).toUpperCase() + " Acc: " + _CPU.Acc + " Xreg: " + _CPU.Xreg + " Yreg: " + _CPU.Yreg + " Z Flag: " + _CPU.Zflag;
             // Check for an interrupt, are any. Page 560
             if (_KernelInterruptQueue.getSize() > 0) {
                 // Process the first interrupt on the interrupt queue.
@@ -110,6 +123,9 @@ var TSOS;
             }
             else if (_CPU.isExecuting) {
                 _CPU.cycle();
+                _Scheduler.incTicks();
+                console.log("Ticks: " + _Scheduler.ticks);
+                console.log("pid: " + this.running.pid);
             }
             else {
                 this.krnTrace("Idle");
@@ -142,7 +158,7 @@ var TSOS;
                     _StdIn.handleInput();
                     break;
                 case BREAK_IRQ:
-                    this.running.copyCpuState(_CPU.PC, _CPU.Acc, _CPU.Xreg, _CPU.Yreg, _CPU.Zflag, _CPU.isExecuting, _CPU.instruction, _CPU.baseAddress, _CPU.limitAddress);
+                    this.running.copyCpuState(_CPU.PC, _CPU.Acc, _CPU.Xreg, _CPU.Yreg, _CPU.Zflag, _CPU.isExecuting, _CPU.instruction, _CPU.baseAddress, _CPU.limitAddress, _CPU.pid);
                     document.getElementById("pcb").value = "PC: " + this.running.PC + " IR: " + this.running.instruction.toString(16).toUpperCase() + " Acc: " + this.running.Acc + " Xreg: " + this.running.Xreg + " Yreg: " + this.running.Yreg + " Z Flag: " + this.running.Zflag;
                     _CPU.isExecuting = false;
                     this.running = undefined;

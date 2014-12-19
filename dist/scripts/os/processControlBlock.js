@@ -27,8 +27,9 @@ var TSOS;
             _CPU.instruction = this.instruction;
             _CPU.baseAddress = this.baseAddress;
             _CPU.limitAddress = this.limitAddress;
+            _CPU.pid = this.pid;
         };
-        Pcb.prototype.copyCpuState = function (PC, Acc, Xreg, Yreg, Zflag, isExecuting, instruction, baseAddress, limitAddress) {
+        Pcb.prototype.copyCpuState = function (PC, Acc, Xreg, Yreg, Zflag, isExecuting, instruction, baseAddress, limitAddress, pid) {
             this.PC = PC;
             this.Acc = Acc;
             this.Xreg = Xreg;
@@ -38,6 +39,7 @@ var TSOS;
             this.instruction = instruction;
             this.baseAddress = baseAddress;
             this.limitAddress = limitAddress;
+            this.pid = pid;
         };
         return Pcb;
     })();

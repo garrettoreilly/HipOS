@@ -30,9 +30,10 @@ module TSOS {
             _CPU.instruction = this.instruction;
             _CPU.baseAddress = this.baseAddress;
             _CPU.limitAddress = this.limitAddress;
+            _CPU.pid = this.pid;
         }
 
-        public copyCpuState(PC, Acc, Xreg, Yreg, Zflag, isExecuting, instruction, baseAddress, limitAddress): void {
+        public copyCpuState(PC, Acc, Xreg, Yreg, Zflag, isExecuting, instruction, baseAddress, limitAddress, pid): void {
             this.PC = PC;
             this.Acc = Acc;
             this.Xreg = Xreg;
@@ -42,6 +43,7 @@ module TSOS {
             this.instruction = instruction;
             this.baseAddress = baseAddress;
             this.limitAddress = limitAddress;
+            this.pid = pid;
         }
 
     }
