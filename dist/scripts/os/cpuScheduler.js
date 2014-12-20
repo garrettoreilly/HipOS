@@ -24,6 +24,11 @@ var TSOS;
                 _Kernel.running.setCpuState();
                 _Kernel.krnTrace("Context switching to the max!! pid = " + _Kernel.running.pid);
             }
+            var PCBs = "";
+            for (var i = 0; i < _Kernel.readyQueue.length; i++) {
+                PCBs += "pid: " + _Kernel.readyQueue[i].pid + " Base address: " + _Kernel.readyQueue[i].baseAddress + " PC: " + _Kernel.readyQueue[i].PC + " IR: " + _Kernel.readyQueue[i].instruction.toString(16).toUpperCase() + " Acc: " + _Kernel.readyQueue[i].Acc + " Xreg: " + _Kernel.readyQueue[i].Xreg + " Yreg: " + _Kernel.readyQueue[i].Yreg + " Z Flag: " + _Kernel.readyQueue[i].Zflag + "\n";
+            }
+            document.getElementById("pcb").value = PCBs;
         };
         return Scheduler;
     })();
