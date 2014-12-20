@@ -61,5 +61,12 @@ module TSOS {
                 this.setAddress(i, 0);
             }
         }
+
+        public clearSegment(addr): void {
+            for (var i = 0; i < 256; i++) {
+                this.memory.setAddress(i + addr, "0");
+            }
+            this.segments[addr/256] = true;
+        }
     }
 }

@@ -143,6 +143,12 @@ module TSOS {
                                   "- Display active processes.");
             this.commandList[this.commandList.length] = sc;
 
+            // Kill process
+            sc = new ShellCommand(this.shellKill,
+                                  "kill",
+                                  "<int> - Kill process.");
+            this.commandList[this.commandList.length] = sc;
+
             // processes - list the running processes and their IDs
             // kill <id> - kills the specified process id.
 
@@ -436,6 +442,14 @@ module TSOS {
 
         public shellPS(args) {
             _Kernel.pS();
+        }
+
+        public shellKill(args) {
+            if (args.length > 0) {
+                _Kernel.killProcess(args);
+            } else {
+                _StdOut.putText("Usage: kill <int> - Please supply a process ID.");
+            }
         }
     }
 }

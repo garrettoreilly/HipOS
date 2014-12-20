@@ -69,6 +69,35 @@ var TSOS;
             }
             _StdOut.putText("" + this.running.pid);
         };
+        Kernel.prototype.killProcess = function (programPid) {
+            var temp;
+            var baseAddress;
+            for (var i = 0; i < this.readyQueue.length; i++) {
+                if (this.readyQueue[i].pid == programPid) {
+                    baseAddress = this.readyQueue.splice(i, 1)[0].baseAddress;
+                    break;
+                }
+            }
+            if (baseAddress == undefined) {
+                for (var i = 0; i < this.residentList.length; i++) {
+                    if (this.residentList[i].pid == programPid) {
+                        baseAddress = this.residentList.splice(i, 1)[0].baseAddress;
+                        console.log(baseAddress);
+                        break;
+                    }
+                }
+            }
+            if (baseAddress == undefined && this.running != undefined) {
+                if (this.running.pid == programPid) {
+                    baseAddress = this.running.baseAddress;
+                    this.running = undefined;
+                    _CPU.isExecuting = false;
+                }
+            }
+            if (baseAddress != undefined) {
+                _Manager.clearSegment(baseAddress);
+            }
+        };
         //
         // OS Startup and Shutdown Routines
         //
@@ -177,7 +206,6 @@ var TSOS;
                     this.running = undefined;
                     break;
                 case SOFTWARE_IRQ:
-                    console.log(params);
                     if (params[0] == 1) {
                         _StdOut.putText(params[1].toString());
                     }

@@ -80,6 +80,9 @@ var TSOS;
             // Display active processes
             sc = new TSOS.ShellCommand(this.shellPS, "ps", "- Display active processes.");
             this.commandList[this.commandList.length] = sc;
+            // Kill process
+            sc = new TSOS.ShellCommand(this.shellKill, "kill", "<int> - Kill process.");
+            this.commandList[this.commandList.length] = sc;
             // processes - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             // Display the initial prompt.
@@ -353,6 +356,14 @@ var TSOS;
         };
         Shell.prototype.shellPS = function (args) {
             _Kernel.pS();
+        };
+        Shell.prototype.shellKill = function (args) {
+            if (args.length > 0) {
+                _Kernel.killProcess(args);
+            }
+            else {
+                _StdOut.putText("Usage: kill <int> - Please supply a process ID.");
+            }
         };
         return Shell;
     })();
