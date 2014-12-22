@@ -3,6 +3,7 @@
 ///<reference path="userCommand.ts" />
 ///<reference path="../utils.ts" />
 ///<reference path="../globals.ts" />
+///<reference path="diskDeviceDriver.ts" />
 
 /* ------------
    Shell.ts
@@ -147,6 +148,18 @@ module TSOS {
             sc = new ShellCommand(this.shellKill,
                                   "kill",
                                   "<int> - Kill process.");
+            this.commandList[this.commandList.length] = sc;
+            
+            // Format disk drive
+            sc = new ShellCommand(this.shellFormat,
+                                  "format",
+                                  "- Format disk drive.");
+            this.commandList[this.commandList.length] = sc;
+
+            // Create new file
+            sc = new ShellCommand(this.shellCreate,
+                                  "create",
+                                  "<string> - Create new file.");
             this.commandList[this.commandList.length] = sc;
 
             // processes - list the running processes and their IDs
@@ -449,6 +462,19 @@ module TSOS {
                 _Kernel.killProcess(args);
             } else {
                 _StdOut.putText("Usage: kill <int> - Please supply a process ID.");
+            }
+        }
+
+        public shellFormat(args) {
+            DiskDevice.formatDisk();
+            _StdOut.putText("Format successful.");
+        }
+
+        public shellCreate(args) {
+            if (args.length > 0) {
+                DiskDevice.createFile(args);
+            } else {
+                _StdOut.putText("Usage: create <file> - Please supply a file name.");
             }
         }
     }
