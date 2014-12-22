@@ -8,6 +8,7 @@
 ///<reference path="shell.ts" />
 ///<reference path="deviceDriverKeyboard.ts" />
 ///<reference path="cpuScheduler.ts" />
+///<reference path="diskDeviceDriver.ts" />
 
 /* ------------
      Kernel.ts
@@ -111,6 +112,7 @@ module TSOS {
         // OS Startup and Shutdown Routines
         //
         public krnBootstrap() {      // Page 8. {
+            DiskDevice.formatDisk();
             _Manager = new Manager();
             _Scheduler = new Scheduler();
             Control.hostLog("bootstrap", "host");  // Use hostLog because we ALWAYS want this, even if _Trace is off.

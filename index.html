@@ -34,6 +34,8 @@
     <script type="text/javascript" src="dist/scripts/os/memoryManager.js"></script>
     <script type="text/javascript" src="dist/scripts/os/processControlBlock.js"></script>
     <script type="text/javascript" src="dist/scripts/os/cpuScheduler.js"></script>
+    <script type="text/javascript" src="dist/scripts/host/diskDrive.js"></script>
+    <script type="text/javascript" src="dist/scripts/os/diskDeviceDriver.js"></script>
 
     <!-- Other Routines -->
     <script type="text/javascript" src="dist/scripts/utils.js"></script>
@@ -103,7 +105,7 @@
             <textarea name="Memory"
                       id  ="memory"
                       rows="26"
-                      cols="48"
+                      cols="19"
             ></textarea>
         </label>
     </div>
@@ -136,6 +138,17 @@
             ></textarea>
         </label>
     </div>
+    <div style="float:left;">
+        Disk Drive
+        <br>
+        <textarea name="diskDrive"
+                  id  ="disk"
+                  rows="256"
+                  cols="150"
+                  style="max-height:100px;"
+        ></textarea>
+    </div>
+
 
 </div>
 
