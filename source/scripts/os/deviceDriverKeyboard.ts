@@ -1,3 +1,4 @@
+///<reference path="../globals.ts" />
 ///<reference path="deviceDriver.ts" />
 
 /* ----------------------------------
@@ -133,6 +134,12 @@ module TSOS {
                         keyCode = 125;
                     } else {
                         keyCode = 93;
+                    }
+                } else if (keyCode == 222) {
+                    if (isShifted) {
+                        keyCode = 34;
+                    } else {
+                        keyCode = 39;
                     }
                 }
                 chr = String.fromCharCode(keyCode);

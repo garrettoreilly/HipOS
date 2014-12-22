@@ -90,6 +90,9 @@ var TSOS;
             // Create new file
             sc = new TSOS.ShellCommand(this.shellCreate, "create", "<string> - Create new file.");
             this.commandList[this.commandList.length] = sc;
+            // Write to a file
+            sc = new TSOS.ShellCommand(this.shellWrite, "write", "\"<string>\" - Write to a file.");
+            this.commandList[this.commandList.length] = sc;
             // processes - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             // Display the initial prompt.
@@ -382,6 +385,14 @@ var TSOS;
             }
             else {
                 _StdOut.putText("Usage: create <file> - Please supply a file name.");
+            }
+        };
+        Shell.prototype.shellWrite = function (args) {
+            if (args.length >= 2) {
+                TSOS.DiskDevice.writeFile(args, false);
+            }
+            else {
+                _StdOut.putText("Usage: write <file> - Please supply a file name.");
             }
         };
         return Shell;

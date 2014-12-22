@@ -1,3 +1,4 @@
+///<reference path="../globals.ts" />
 ///<reference path="deviceDriver.ts" />
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -159,6 +160,14 @@ var TSOS;
                     }
                     else {
                         keyCode = 93;
+                    }
+                }
+                else if (keyCode == 222) {
+                    if (isShifted) {
+                        keyCode = 34;
+                    }
+                    else {
+                        keyCode = 39;
                     }
                 }
                 chr = String.fromCharCode(keyCode);

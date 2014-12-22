@@ -162,6 +162,12 @@ module TSOS {
                                   "<string> - Create new file.");
             this.commandList[this.commandList.length] = sc;
 
+            // Write to a file
+            sc = new ShellCommand(this.shellWrite,
+                                  "write",
+                                  "\"<string>\" - Write to a file.");
+            this.commandList[this.commandList.length] = sc;
+
             // processes - list the running processes and their IDs
             // kill <id> - kills the specified process id.
 
@@ -475,6 +481,14 @@ module TSOS {
                 DiskDevice.createFile(args);
             } else {
                 _StdOut.putText("Usage: create <file> - Please supply a file name.");
+            }
+        }
+
+        public shellWrite(args) {
+            if (args.length >= 2) {
+                DiskDevice.writeFile(args, false);
+            } else {
+                _StdOut.putText("Usage: write <file> - Please supply a file name.");
             }
         }
     }
