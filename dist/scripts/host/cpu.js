@@ -146,20 +146,7 @@ var TSOS;
         };
         Cpu.prototype.breakSys = function () {
             this.PC = 0;
-            while (this.PC < 256) {
-                _Manager.setAddress(this.PC, 0);
-                this.PC++;
-            }
-            this.PC = 0;
-            if (_Kernel.running.baseAddress == 0) {
-                _Manager.segments[0] = true;
-            }
-            else if (_Kernel.running.baseAddress = 256) {
-                _Manager.segments[1] = true;
-            }
-            else {
-                _Manager.segments[2] = true;
-            }
+            _Manager.clearSegment(_Kernel.running.baseAddress);
             _KernelInterruptQueue.enqueue(new TSOS.Interrupt(BREAK_IRQ, []));
         };
         Cpu.prototype.compareToX = function () {
