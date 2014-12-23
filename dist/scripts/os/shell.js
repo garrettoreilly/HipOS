@@ -94,7 +94,10 @@ var TSOS;
             sc = new TSOS.ShellCommand(this.shellWrite, "write", "\"<string>\" - Write to a file.");
             this.commandList[this.commandList.length] = sc;
             // Delete a file
-            sc = new TSOS.ShellCommand(this.shellDelete, "delete", "\"<string>\" - Delete a file.");
+            sc = new TSOS.ShellCommand(this.shellDelete, "delete", "<string> - Delete a file.");
+            this.commandList[this.commandList.length] = sc;
+            // Read a file
+            sc = new TSOS.ShellCommand(this.shellRead, "read", "<string> - Read a file.");
             this.commandList[this.commandList.length] = sc;
             // processes - list the running processes and their IDs
             // kill <id> - kills the specified process id.
@@ -404,6 +407,14 @@ var TSOS;
             }
             else {
                 _StdOut.putText("Usage: delete <file> - Please supply a file name.");
+            }
+        };
+        Shell.prototype.shellRead = function (args) {
+            if (args.length > 0) {
+                _StdOut.putText(TSOS.DiskDevice.readFile(args));
+            }
+            else {
+                _StdOut.putText("Usage: read <file> - Please supply a file name.");
             }
         };
         return Shell;

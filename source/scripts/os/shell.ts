@@ -171,7 +171,13 @@ module TSOS {
             // Delete a file
             sc = new ShellCommand(this.shellDelete,
                                   "delete",
-                                  "\"<string>\" - Delete a file.");
+                                  "<string> - Delete a file.");
+            this.commandList[this.commandList.length] = sc;
+
+            // Read a file
+            sc = new ShellCommand(this.shellRead,
+                                  "read",
+                                  "<string> - Read a file.");
             this.commandList[this.commandList.length] = sc;
 
             // processes - list the running processes and their IDs
@@ -503,6 +509,14 @@ module TSOS {
                 DiskDevice.deleteFile(args);
             } else {
                 _StdOut.putText("Usage: delete <file> - Please supply a file name.");
+            }
+        }
+
+        public shellRead(args) {
+            if (args.length > 0) {
+                _StdOut.putText(DiskDevice.readFile(args));
+            } else {
+                _StdOut.putText("Usage: read <file> - Please supply a file name.");
             }
         }
     }

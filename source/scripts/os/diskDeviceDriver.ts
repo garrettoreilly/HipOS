@@ -21,11 +21,7 @@ module TSOS {
                 _StdOut.putText("Disk is full.");
                 return;
             }
-            var newName = "";
-            var temp: number;
-            for (var i = 0; i < name.length; i++) {
-                newName += name.charCodeAt(i).toString(16);
-            }
+            var newName = this.stringToHex(name);
             if (this.fileExists(newName) == "000") {
                 newName = "01@@@@@@" + newName;
                 Disk.write(path, newName + Array(129 - newName.length).join("0"));
@@ -37,15 +33,9 @@ module TSOS {
         public static writeFile(data, program): void {
             var name = data.splice(0, 1)[0];
             data = data.join(" ").replace(/\"/g, "");
-            var newName = "";
-            for (var i = 0; i < name.length; i++) {
-                newName += name.charCodeAt(i).toString(16);
-            }
+            var newName = this.stringToHex(name);
             if (!program) {
-                var newData = "";
-                for (var i = 0; i < data.length; i++) {
-                    newData += data.charCodeAt(i).toString(16);
-                }
+                var newData = this.stringToHex(data);
             }
             var path = this.fileExists(newName);
             if (path == "000") {
@@ -87,6 +77,21 @@ module TSOS {
                 _StdOut.putText("Write succeeded.");
             }
         }
+
+        public static readFile(name): string {
+            var name = name[0];
+            var newName = this.stringToHex(name);
+            var hexContent = "";
+            var path = this.fileExists(newName);
+            path = Disk.read(path).substring(2, 8);
+            path = path[1] + path[3] + path[5];
+            while (path.indexOf("@") == -1) {
+                path = Disk.read(path);
+                hexContent += path.substring(8);
+                path = path[3] + path[5] + path[7];
+            }
+            return this.hexToString(hexContent);
+        }
         
         private static findEmptyBlock(mode: number): string {
             var path: string;
@@ -113,16 +118,14 @@ module TSOS {
 
         public static deleteFile(name): void {
             var name = name[0];
-            var newName = "";
-            for (var i = 0; i < name.length; i++) {
-                newName += name.charCodeAt(i).toString(16);
-            }
+            var newName = this.stringToHex(name);
             var path = this.fileExists(newName);
             if (path == "000") {
                 _StdOut.putText("No file named " + name);
+            } else {
+                this.deleteLinks(path);
+                _StdOut.putText("File deleted.");
             }
-            this.deleteLinks(path);
-            _StdOut.putText("File deleted.");
         }
 
         private static fileExists(name: string): string {
@@ -142,6 +145,22 @@ module TSOS {
                 this.deleteLinks(nextBlock[1] + nextBlock[3] + nextBlock[5]);
             }
             Disk.write(path, "0");
+        }
+
+        private static stringToHex(str: string): string {
+            var hex = "";
+            for (var i = 0; i < str.length; i++) {
+                hex += str.charCodeAt(i).toString(16);
+            }
+            return hex;
+        }
+
+        private static hexToString(hex: string): string {
+            var str = "";
+            for (var i = 0; i < hex.length; i+=2) {
+                str += String.fromCharCode(parseInt(hex[i] + hex[i+1], 16));
+            }
+            return str;
         }
     }
 }

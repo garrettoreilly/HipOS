@@ -21,11 +21,7 @@ var TSOS;
                 _StdOut.putText("Disk is full.");
                 return;
             }
-            var newName = "";
-            var temp;
-            for (var i = 0; i < name.length; i++) {
-                newName += name.charCodeAt(i).toString(16);
-            }
+            var newName = this.stringToHex(name);
             if (this.fileExists(newName) == "000") {
                 newName = "01@@@@@@" + newName;
                 TSOS.Disk.write(path, newName + Array(129 - newName.length).join("0"));
@@ -37,15 +33,9 @@ var TSOS;
         DiskDevice.writeFile = function (data, program) {
             var name = data.splice(0, 1)[0];
             data = data.join(" ").replace(/\"/g, "");
-            var newName = "";
-            for (var i = 0; i < name.length; i++) {
-                newName += name.charCodeAt(i).toString(16);
-            }
+            var newName = this.stringToHex(name);
             if (!program) {
-                var newData = "";
-                for (var i = 0; i < data.length; i++) {
-                    newData += data.charCodeAt(i).toString(16);
-                }
+                var newData = this.stringToHex(data);
             }
             var path = this.fileExists(newName);
             if (path == "000") {
@@ -90,6 +80,20 @@ var TSOS;
                 _StdOut.putText("Write succeeded.");
             }
         };
+        DiskDevice.readFile = function (name) {
+            var name = name[0];
+            var newName = this.stringToHex(name);
+            var hexContent = "";
+            var path = this.fileExists(newName);
+            path = TSOS.Disk.read(path).substring(2, 8);
+            path = path[1] + path[3] + path[5];
+            while (path.indexOf("@") == -1) {
+                path = TSOS.Disk.read(path);
+                hexContent += path.substring(8);
+                path = path[3] + path[5] + path[7];
+            }
+            return this.hexToString(hexContent);
+        };
         DiskDevice.findEmptyBlock = function (mode) {
             var path;
             for (var i = 0; i < 8; i++) {
@@ -115,16 +119,15 @@ var TSOS;
         };
         DiskDevice.deleteFile = function (name) {
             var name = name[0];
-            var newName = "";
-            for (var i = 0; i < name.length; i++) {
-                newName += name.charCodeAt(i).toString(16);
-            }
+            var newName = this.stringToHex(name);
             var path = this.fileExists(newName);
             if (path == "000") {
                 _StdOut.putText("No file named " + name);
             }
-            this.deleteLinks(path);
-            _StdOut.putText("File deleted.");
+            else {
+                this.deleteLinks(path);
+                _StdOut.putText("File deleted.");
+            }
         };
         DiskDevice.fileExists = function (name) {
             for (var i = 0; i < 8; i++) {
@@ -142,6 +145,20 @@ var TSOS;
                 this.deleteLinks(nextBlock[1] + nextBlock[3] + nextBlock[5]);
             }
             TSOS.Disk.write(path, "0");
+        };
+        DiskDevice.stringToHex = function (str) {
+            var hex = "";
+            for (var i = 0; i < str.length; i++) {
+                hex += str.charCodeAt(i).toString(16);
+            }
+            return hex;
+        };
+        DiskDevice.hexToString = function (hex) {
+            var str = "";
+            for (var i = 0; i < hex.length; i += 2) {
+                str += String.fromCharCode(parseInt(hex[i] + hex[i + 1], 16));
+            }
+            return str;
         };
         return DiskDevice;
     })();
