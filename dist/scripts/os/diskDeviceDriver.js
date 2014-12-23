@@ -113,6 +113,19 @@ var TSOS;
                 return path;
             }
         };
+        DiskDevice.deleteFile = function (name) {
+            var name = name[0];
+            var newName = "";
+            for (var i = 0; i < name.length; i++) {
+                newName += name.charCodeAt(i).toString(16);
+            }
+            var path = this.fileExists(newName);
+            if (path == "000") {
+                _StdOut.putText("No file named " + name);
+            }
+            this.deleteLinks(path);
+            _StdOut.putText("File deleted.");
+        };
         DiskDevice.fileExists = function (name) {
             for (var i = 0; i < 8; i++) {
                 for (var j = 1; j < 8; j++) {

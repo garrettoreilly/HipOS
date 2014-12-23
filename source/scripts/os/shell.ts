@@ -168,6 +168,12 @@ module TSOS {
                                   "\"<string>\" - Write to a file.");
             this.commandList[this.commandList.length] = sc;
 
+            // Delete a file
+            sc = new ShellCommand(this.shellDelete,
+                                  "delete",
+                                  "\"<string>\" - Delete a file.");
+            this.commandList[this.commandList.length] = sc;
+
             // processes - list the running processes and their IDs
             // kill <id> - kills the specified process id.
 
@@ -489,6 +495,14 @@ module TSOS {
                 DiskDevice.writeFile(args, false);
             } else {
                 _StdOut.putText("Usage: write <file> - Please supply a file name.");
+            }
+        }
+
+        public shellDelete(args) {
+            if (args.length > 0) {
+                DiskDevice.deleteFile(args);
+            } else {
+                _StdOut.putText("Usage: delete <file> - Please supply a file name.");
             }
         }
     }
