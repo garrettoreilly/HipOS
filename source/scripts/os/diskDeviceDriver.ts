@@ -55,7 +55,11 @@ module TSOS {
                 var numBlocks = Math.ceil(newData.length/120);
                 var blockStrings = [];
                 var blocks = [];
-                var newPath: string;
+                var newPath = Disk.read(path).substring(2, 8);
+                if (newPath.indexOf("@") == -1) {
+                    newPath = newPath[1] + newPath[3] + newPath[5];
+                    this.deleteLinks(newPath);
+                }
                 for (var i = 0; i < numBlocks; i++) {
                     blockStrings[i] = newData.substring(0, 120);
                     newData = newData.substring(120);
@@ -80,6 +84,7 @@ module TSOS {
                         Disk.write(blocks[i], "01@@@@@@" + blockStrings[i]);
                     }
                 }
+                _StdOut.putText("Write succeeded.");
             }
         }
         
@@ -115,6 +120,14 @@ module TSOS {
                 }
             }
             return "000";
+        }
+
+        private static deleteLinks(path: string): void {
+            if (path.indexOf("@") == -1) {
+                var nextBlock = Disk.read(path).substring(2, 8);
+                this.deleteLinks(nextBlock[1] + nextBlock[3] + nextBlock[5]);
+            }
+            Disk.write(path, "0");
         }
     }
 }
