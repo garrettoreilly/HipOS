@@ -14,7 +14,7 @@ module TSOS {
         }
 
 
-        public static createFile(name: string): void {
+        public static createFile(name): boolean {
             var name = name[0];
             var path = this.findEmptyBlock(0);
             if (path == "full") {
@@ -25,8 +25,10 @@ module TSOS {
             if (this.fileExists(newName) == "000") {
                 newName = "01@@@@@@" + newName;
                 Disk.write(path, newName + Array(129 - newName.length).join("0"));
+                return true;
             } else {
-                _StdOut.putText("File already exists.");
+                _StdOut.putText("File already exists. ");
+                return false;
             }
         }
 
@@ -35,14 +37,14 @@ module TSOS {
             data = data.join(" ").replace(/\"/g, "");
             var newName = this.stringToHex(name);
             if (!program) {
-                var newData = this.stringToHex(data);
+                data = this.stringToHex(data);
             }
             var path = this.fileExists(newName);
             if (path == "000") {
                 _StdOut.putText("No file named " + name);
                 return;
             } else {
-                var numBlocks = Math.ceil(newData.length/120);
+                var numBlocks = Math.ceil(data.length/120);
                 var blockStrings = [];
                 var blocks = [];
                 var newPath = Disk.read(path).substring(2, 8);
@@ -51,8 +53,8 @@ module TSOS {
                     this.deleteLinks(newPath);
                 }
                 for (var i = 0; i < numBlocks; i++) {
-                    blockStrings[i] = newData.substring(0, 120);
-                    newData = newData.substring(120);
+                    blockStrings[i] = data.substring(0, 120);
+                    data = data.substring(120);
                 }
                 for (var i = 0; i < numBlocks; i++) {
                     for (var j = 1; j <= 3; j++) {
@@ -74,7 +76,7 @@ module TSOS {
                         Disk.write(blocks[i], "01@@@@@@" + blockStrings[i]);
                     }
                 }
-                _StdOut.putText("Write succeeded.");
+                _StdOut.putText("Write succeeded. ");
             }
         }
 

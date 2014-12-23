@@ -33,7 +33,12 @@ module TSOS {
         public loadProgram(program): number {
             var base = _Manager.loadProgram(program);
             if (base == -1) {
-                return -1;
+                if (DiskDevice.createFile(["swap"])) {
+                    DiskDevice.writeFile(["swap", program.join("")], true);
+                    console.log(program);
+                } else {
+                    return -1;
+                }
             }
             var pcb = new Pcb(this.pid, base);
             this.residentList.push(pcb);

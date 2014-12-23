@@ -30,7 +30,13 @@ var TSOS;
         Kernel.prototype.loadProgram = function (program) {
             var base = _Manager.loadProgram(program);
             if (base == -1) {
-                return -1;
+                if (TSOS.DiskDevice.createFile(["swap"])) {
+                    TSOS.DiskDevice.writeFile(["swap", program.join("")], true);
+                    console.log(program);
+                }
+                else {
+                    return -1;
+                }
             }
             var pcb = new TSOS.Pcb(this.pid, base);
             this.residentList.push(pcb);
