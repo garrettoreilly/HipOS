@@ -180,6 +180,12 @@ module TSOS {
                                   "<string> - Read a file.");
             this.commandList[this.commandList.length] = sc;
 
+            // List files
+            sc = new ShellCommand(this.shellList,
+                                  "ls",
+                                  "- List files on the disk.");
+            this.commandList[this.commandList.length] = sc;
+
             // processes - list the running processes and their IDs
             // kill <id> - kills the specified process id.
 
@@ -518,6 +524,10 @@ module TSOS {
             } else {
                 _StdOut.putText("Usage: read <file> - Please supply a file name.");
             }
+        }
+
+        public shellList(args) {
+            DiskDevice.listFiles();
         }
     }
 }

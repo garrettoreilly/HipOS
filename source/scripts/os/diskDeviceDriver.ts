@@ -82,15 +82,19 @@ module TSOS {
             var name = name[0];
             var newName = this.stringToHex(name);
             var hexContent = "";
-            var path = this.fileExists(newName);
-            path = Disk.read(path).substring(2, 8);
+            var originalPath = this.fileExists(newName);
+            var path = Disk.read(originalPath).substring(2, 8);
             path = path[1] + path[3] + path[5];
             while (path.indexOf("@") == -1) {
                 path = Disk.read(path);
                 hexContent += path.substring(8);
                 path = path[3] + path[5] + path[7];
             }
-            return this.hexToString(hexContent);
+            if (Disk.read(originalPath)[1] = "1") {
+                return this.hexToString(hexContent);
+            } else if (Disk.read(originalPath)[1] == "2") {
+                return hexContent;
+            }
         }
         
         private static findEmptyBlock(mode: number): string {
@@ -125,6 +129,26 @@ module TSOS {
             } else {
                 this.deleteLinks(path);
                 _StdOut.putText("File deleted.");
+            }
+        }
+
+        public static listFiles(): void {
+            var files = [];
+            var test: string;
+            for (var i = 0; i < 8; i++) {
+                for (var j = 0; j < 8; j++) {
+                    test = Disk.read("0" + i + j);
+                    if (test) {
+                        test = test.substring(0, 2);
+                        if (test != "00") {
+                            files.push(this.hexToString(Disk.read("0" + i + j).substring(8)));
+                        }
+                    }
+                }
+            }
+            for (var i = 0; i < files.length; i++) {
+                _StdOut.putText(files[i]);
+                _StdOut.advanceLine();
             }
         }
 

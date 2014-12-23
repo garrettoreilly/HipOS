@@ -84,15 +84,20 @@ var TSOS;
             var name = name[0];
             var newName = this.stringToHex(name);
             var hexContent = "";
-            var path = this.fileExists(newName);
-            path = TSOS.Disk.read(path).substring(2, 8);
+            var originalPath = this.fileExists(newName);
+            var path = TSOS.Disk.read(originalPath).substring(2, 8);
             path = path[1] + path[3] + path[5];
             while (path.indexOf("@") == -1) {
                 path = TSOS.Disk.read(path);
                 hexContent += path.substring(8);
                 path = path[3] + path[5] + path[7];
             }
-            return this.hexToString(hexContent);
+            if (TSOS.Disk.read(originalPath)[1] = "1") {
+                return this.hexToString(hexContent);
+            }
+            else if (TSOS.Disk.read(originalPath)[1] == "2") {
+                return hexContent;
+            }
         };
         DiskDevice.findEmptyBlock = function (mode) {
             var path;
@@ -127,6 +132,25 @@ var TSOS;
             else {
                 this.deleteLinks(path);
                 _StdOut.putText("File deleted.");
+            }
+        };
+        DiskDevice.listFiles = function () {
+            var files = [];
+            var test;
+            for (var i = 0; i < 8; i++) {
+                for (var j = 0; j < 8; j++) {
+                    test = TSOS.Disk.read("0" + i + j);
+                    if (test) {
+                        test = test.substring(0, 2);
+                        if (test != "00") {
+                            files.push(this.hexToString(TSOS.Disk.read("0" + i + j).substring(8)));
+                        }
+                    }
+                }
+            }
+            for (var i = 0; i < files.length; i++) {
+                _StdOut.putText(files[i]);
+                _StdOut.advanceLine();
             }
         };
         DiskDevice.fileExists = function (name) {
